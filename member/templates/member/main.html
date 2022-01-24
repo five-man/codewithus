@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="hamburger" style="float:left;width:33%"></div>
+        <div class="navcenter" style="float:center;width:33%">
+            <h1>
+                <a href="#">Code With US!</a>
+            </h1>
+        </div>
+        <div class="navright" style="float:right;width:33%">
+            <div style="float:left;width:80%">
+                <a class = navright href="#">로그인</a>
+            </div>
+            <div style="float:right;width:20%">
+                <a class = navright href="#">회원가입</a>
+            </div>    
+        </div>
+    </nav>
+    <div class="content">
+        <div class="menu-button">
+            <div class="row1">
+                <button class="num1" onclick="location.href='login.html'">
+                    <div>
+                        <strong>Study 시작하기</strong>
+                    </div>
+                    <div class="words">
+                        <p>함께 배우면서</p>
+                        <p>같이 성장하는 스터디</p>
+                        <p>여러분의 동료가 여러분을 기다리고 있어요!</p>
+                    </div>
+                </button>
+                <button class="num2">
+                    <strong>Study 입장하기</strong>
+                </button>
+            </div>
+            <div class="row2">
+                <button class="num3">
+                    <strong>문제 확인하기</strong>
+                    <p>지금까지 올라온 문제를 모두 확인해볼 수 있어요!</p>
+                </button>
+                <button class="num4">
+                    <div>
+                        <strong>문제 업로드</strong>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

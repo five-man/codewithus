@@ -1,0 +1,116 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  height: 100%;
+}
+
+body{
+  background-color: #dcf2ed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20%;
+  padding-bottom: 20%;
+  padding-left: 35%;
+  padding-right: 35%;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  background-color: #20484f;
+}
+
+nav a{
+  text-decoration: none;
+  color: white;
+}
+
+.form-signup {
+  width: 500px;
+  height: 700px;
+  border-radius: 20px;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: box-shadow 250ms ease-in;
+  transition: transform 250ms ease-in;
+  flex: 1 0 auto;
+}
+.form-signup .login-title {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.form-signup input[type="name"] {
+  width: 440px;
+  height: 40px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border-bottom-color: darkgray;
+  border-left-color: #ffffff;
+  border-right-color: darkgray;
+  border-top-color: #ffffff;
+}
+
+.form-signup input[type="email"] {
+  width: 440px;
+  height: 40px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border-bottom-color: darkgray;
+  border-left-color: #ffffff;
+  border-right-color: darkgray;
+  border-top-color: #ffffff;
+}
+
+.form-signup input[type="password"] {
+  width: 440px;
+  height: 40px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border-bottom-color: darkgray;
+  border-left-color: #ffffff;
+  border-right-color: darkgray;
+  border-top-color: #ffffff;
+  
+}
+
+.form-signup a{
+  text-decoration: underline;
+  color: #20484f;
+}
+.form-signup .checkbox {
+  font-weight: 400;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  
+}
+
+.form-signup .submit-btn {
+  width: 440px;
+  height: 50px;
+  margin-bottom: 20px;
+  background-color: #20484f;
+  border-radius: 5px;
+  text-decoration: none;
+  color: white;
+}
+
+.bottomText {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 10px;
+}

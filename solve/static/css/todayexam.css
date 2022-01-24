@@ -1,0 +1,220 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+  
+body {
+    height: 100%;
+}
+
+body{
+    background-color: #dcf2ed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5%;
+    padding-bottom: 20%;
+    padding-left: 35%;
+    padding-right: 35%;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    background-color: #20484f;
+    z-index: 1;
+}
+
+nav a{
+    text-decoration: none;
+    color: white;
+}
+
+.navcenter{
+    min-width: 168.8px;
+    display: flex;
+    justify-content: center;
+}
+
+.navright{
+    min-width: 67.5px;
+    display: flex;
+    justify-content: right;    
+}
+
+input[type="checkbox"] {
+    margin-left: 10px;
+}
+
+input[id="menuicon"] {
+    display: none;
+}
+
+input[id="menuicon"] + label {
+    display: block;
+    width: 30px;
+    height: 30px;
+    position: relative;
+    cursor: pointer;
+}
+
+input[id="menuicon"] + label span {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    border-radius: 30px;
+    background:#dcf2ed;
+    transition:all .35s;
+}
+
+input[id="menuicon"] + label span:nth-child(1) {
+    top:0;
+}
+input[id="menuicon"] + label span:nth-child(2) {
+    top:50%;
+    transform: translateY(-50%);
+}
+input[id="menuicon"] + label span:nth-child(3) {
+    bottom: 0;
+}
+
+input[id="menuicon"]:checked + label {z-index:3;}
+input[id="menuicon"]:cxhecked + label span {background:#fff;}
+
+input[id="menuicon"]:checked + label span:nth-child(1){
+    top:50%;
+    transform: translateY(-50%) rotate(45deg);
+}
+input[id="menuicon"]:checked + label span:nth-child(2){
+    opacity: 0;
+}
+input[id="menuicon"]:checked + label span:nth-child(3){
+    top:50%;
+    transform: translateY(-50%) rotate(-45deg);
+}
+
+/* 드로우어(서랍) 메뉴 */
+div[class="sidebar"] {
+    width: 300px;
+    height: 100%;
+    background:#20484f;
+    position: fixed;
+    top: 0;
+    left: -300px;
+    z-index: 2;
+    transition: all .35s;
+}
+input[id="menuicon"]:checked + label + div {
+    left: 0;
+}
+
+
+
+/* 사이드 메뉴  */
+
+.menu {
+    margin:40px;
+    margin-top: 80px;
+    width: 80%;
+    height: 80%;
+    /* border: 1px dashed; */
+    color: #fff;
+}
+.category_list{
+    list-style:none;
+    margin:0; 
+    padding:0;
+    font-size: 1.2em;
+    font-weight: 550;
+    margin-top: 0.5em;
+
+}
+
+.sub_category_list{
+    list-style:none;
+    margin:0;
+    padding:2;
+    padding-left: 25;
+    font-size: 0.8em;
+}
+
+.h4main{
+    margin-bottom: 1em;
+}
+.h4main:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+.side_list:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}   
+
+.content {
+    flex-wrap: wrap;
+}
+
+.today-title {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.exam-body{
+    display: flex;
+    width: 700px;
+    height: 800px;
+    background: white;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+}
+
+.progress-bar {
+    background-color: #20484f;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.exam-content {
+    width: 640px;
+    min-height: 400px;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    border-radius: 20px;
+    background-color: white;
+    margin-bottom: 40px;
+  
+}
+
+.ck-content{
+    height: 400px;
+    overflow-y: auto;
+}
+
+.submit-exam-btn {
+    margin-top: 10px;
+    background: #20484f;
+    color: white;
+    border-radius: 5px;
+}
+
+.toallanswer-btn {
+    margin-top: 50px;
+    width: 400px;
+    text-align: center;
+    background: #20484f;
+    color: white;
+    border-radius: 5px;
+}
