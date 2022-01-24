@@ -15,12 +15,13 @@
 
   <nav>
       <h1>
-          <a href="#">Code With US!</a>
+          <a href="{%url 'member:main' %}">Code With US!</a>
       </h1>
   </nav>
 
 <main class="form-signup">
-  <form>
+  <form method="post">
+    {% csrf_token %}
     <div class="login-title">
     <h1 class>스터디 계정 생성</h1>
     </div>
@@ -28,22 +29,22 @@
     <div class="id">
       <h4>이름</h4>
     </div>
-    <input type="name" id="floatingName" placeholder="Enter your name">
+    <input type="name" id="floatingName" placeholder="Enter your name" name="user_name">
     
     <div class="id">
       <h4>아이디</h4>
     </div>
-    <input type="email" id="floatingInput" placeholder="Your@mail.com">
+    <input type="email" id="floatingInput" placeholder="Your@mail.com" name="user_id">
 
     <div class="password">
       <h4>비밀번호</h4>
     </div>
-    <input type="password" id="floatingPassword" placeholder="Enter password">
+    <input type="password" id="floatingPassword" placeholder="Enter password" name="user_pw">
     
     <div class="password">
       <h4>비밀번호 확인</h4>
     </div>
-    <input type="password" id="floatingPassword" placeholder="Check password">
+    <input type="password" id="floatingPassword" placeholder="Check password" name="check_pw">
 
     <div class="checkbox mb-3">
       <label>

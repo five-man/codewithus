@@ -15,22 +15,22 @@
         <div class="hamburger" style="float:left;width:33%"></div>
         <div class="navcenter" style="float:center;width:33%">
             <h1>
-                <a href="#">Code With US!</a>
+                <a href="{%url 'member:main' %}">Code With US!</a>
             </h1>
         </div>
         <div class="navright" style="float:right;width:33%">
             <div style="float:left;width:80%">
-                <a class = navright href="#">로그인</a>
+                <a class = navright href="{%url 'member:login' %}">로그인</a>
             </div>
             <div style="float:right;width:20%">
-                <a class = navright href="#">회원가입</a>
+                <a class = navright href="{%url 'member:signup' %}">회원가입</a>
             </div>    
         </div>
     </nav>
     <div class="content">
         <div class="menu-button">
             <div class="row1">
-                <button class="num1" onclick="location.href='login.html'">
+                <button class="num1" onclick="location.href='{%url 'member:login' %}'">
                     <div>
                         <strong>Study 시작하기</strong>
                     </div>
@@ -40,18 +40,23 @@
                         <p>여러분의 동료가 여러분을 기다리고 있어요!</p>
                     </div>
                 </button>
-                <button class="num2">
+                <button class="num2" onclick="location.href='{%url 'solve:today_exam' %}'">
                     <strong>Study 입장하기</strong>
                 </button>
             </div>
             <div class="row2">
-                <button class="num3">
+                <button class="num3" onclick="location.href='{%url 'solve:problem_list' %}'">
                     <strong>문제 확인하기</strong>
                     <p>지금까지 올라온 문제를 모두 확인해볼 수 있어요!</p>
                 </button>
-                <button class="num4">
+                <button class="num4" onclick="location.href='{%url 'solve:problem_upload' %}'">
                     <div>
                         <strong>문제 업로드</strong>
+                    </div>
+                </button>
+                <button class="num5">
+                    <div>
+                        <strong>파일 업로드</strong>
                     </div>
                 </button>
             </div>
