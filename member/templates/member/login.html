@@ -20,7 +20,9 @@
   </nav>
 
   <main class="form-signin">
-    <form>
+    <form method="post" action="{% url 'member:login' %}">
+      {% csrf_token %}
+
       <div class="login-title">
       <h1>로그인</h1>
       </div>
@@ -28,7 +30,7 @@
       <div class="id">
         <h4>아이디</h4>
       </div>
-      <input type="email" id="floatingInput" placeholder="Your@mail.com">
+      <input type="email" id="floatingInput" placeholder="Your@mail.com" name="member_email">
 
       <div class="password">
         <div style="float:left;width:40%">
@@ -38,19 +40,24 @@
           <a href="#">비밀번호 찾기</a>
         </div>
       </div>
-      <input type="password" id="floatingPassword" placeholder="Enter password">
-
+      <input type="password" id="floatingPassword" placeholder="Enter password" name="member_password">
+      {% if messages %}
+        <div>
+            {% for message in messages %}
+              <span style = "color:red">{{ message.tags }}! {{ message.message }}</span>
+            {% endfor %}
+        </div>
+      {% endif %}
       <div class="checkbox mb-3">
         <label>
           <!--체크박스 배경색 변경 필요-->
           <input type="checkbox" value="remember-me"> 자동 로그인
         </label>
       </div>
-
-      <button class="submit-btn" type="submit" onclick="location.href='#';">스터디 시작하기</button>
+      <button class="submit-btn" type="submit" onclick="location.href='#';" value="서버로 제출하기">스터디 시작하기</button>
       
       <div class="bottomText">
-        스터디 참여 전이신가요? <a href="#">참여하기</a>
+        스터디 참여 전이신가요? <a href="{% url 'member:signup' %}">참여하기</a>
       </div>
     </form>
   </main>
