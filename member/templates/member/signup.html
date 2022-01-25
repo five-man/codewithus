@@ -29,17 +29,17 @@
     <div class="id">
       <h4>이름</h4>
     </div>
-    <input type="name" id="floatingName" placeholder="Enter your name" name="user_name">
+    <input type="name" id="floatingName" placeholder="Enter your name" name="member_name">
     
     <div class="id">
       <h4>아이디</h4>
     </div>
-    <input type="email" id="floatingInput" placeholder="Your@mail.com" name="user_id">
+    <input type="email" id="floatingInput" placeholder="Your@mail.com" name="member_email">
 
     <div class="password">
       <h4>비밀번호</h4>
     </div>
-    <input type="password" id="floatingPassword" placeholder="Enter password" name="user_pw">
+    <input type="password" id="floatingPassword" placeholder="Enter password" name="member_password">
     
     <div class="password">
       <h4>비밀번호 확인</h4>
@@ -52,7 +52,7 @@
       </label>
     </div>
 
-    <button class="submit-btn" type="submit" onclick="location.href='#';">스터디 가입하기</button>
+    <button class="submit-btn" type="submit" onclick="location.href='{%url 'member:login' %}';">스터디 가입하기</button>
     
     <div class="bottomText">
       이미 회원이신가요? <a href="#">로그인하기</a>

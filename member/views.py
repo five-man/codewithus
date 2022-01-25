@@ -14,16 +14,16 @@ def login(request):
 
 def signup(request):
     if request.method == 'POST':
-        user_id = request.POST.get('user_id')
-        user_pw = request.POST.get('user_pw')
-        user_name = request.POST.get('user_name')
+        member_email = request.POST.get('member_email')
+        member_password = request.POST.get('member_password')
+        member_name = request.POST.get('member_name')
         
         m = Member(
-            user_id=user_id, user_pw=user_pw, user_name=user_name)
-        m.date_joined = timezone.now()
+            member_email=member_email, member_password=member_password, member_name=member_name)
+        m.member_joindate = timezone.now()
         m.save()
 
         return HttpResponse(
-            '가입 완료<br>%s %s %s' % (user_id, user_pw, user_name))
+            '가입 완료<br>%s %s %s' % (member_email, member_password, member_name))
     else:
         return render(request, 'member/signup.html')
