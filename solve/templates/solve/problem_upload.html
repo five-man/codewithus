@@ -8,82 +8,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script></head>
-    <link rel="stylesheet"  href="{% static 'css/problem_upload.css' %}">
-    <script src="https://cdn.ckeditor.com/ckeditor5/31.1.0/classic/ckeditor.js"></script>
-    <style>
-        .ck-editor__editable{
-          min-height: 300px;
-        }
-      </style>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<link rel="stylesheet" href="{% static 'css/problem_upload.css' %}">
+<script src="https://cdn.ckeditor.com/ckeditor5/31.1.0/classic/ckeditor.js"></script>
+<style>
+    .ck-editor__editable {
+        min-height: 300px;
+    }
+</style>
 </head>
 
 <body>
     <nav>
         <div class="hamburger" style="float:left;width:33%">
-            <input type="checkbox" id="menuicon" class="hamburger">
-            <label for="menuicon">
-                <span></span>
-                <span></span>
-                <span></span>
-            </label>
-            <div class="sidebar">
-                <div class="menu">
-                    <h4 class="h4main">메뉴 입니다.</h4>
-                    <div class="log_all side_list">메뉴1</div>
-                    <div class="log_all side_list">메뉴2</div>
-                    <div class="log_all side_list">메뉴3</div>
-                    <div class="log_all side_list">메뉴4</div>
-                </div>
-            </div>    
+
         </div>
         <div class="navcenter" style="float:center;width:33%">
             <h1>
-                <a href="#">Code With US!</a>
+                <a href="{%url 'member:main' %}">Code With US!</a>
             </h1>
         </div>
         <div class="navright" style="float:right;width:33%">
             <div style="float:left;width:80%">
-                <a class = navright href="#">로그인</a>
+                <a class=navright>{{ request.session.user_name }}님 반갑습니다.</a>
             </div>
             <div style="float:right;width:20%">
-                <a class = navright href="#">회원가입</a>
-            </div>    
+                <a class=navright href="{%url 'member:signup' %}">회원가입</a>
+            </div>
         </div>
-       
+
     </nav>
-    <div class = "container">
+    <div class="container">
         <h3>오늘의 문제 올리기</h3>
-          <form name="frm_pw" method="POST" action = "post_write">
-          <div class = "form-group">
-              <label for = "title">문제제목</label>
-              <input type = "text" name = "subject" class = "form-control" placeholder = "제목을 입력하세요">
-          </div>
-          <label for = "tag">tag</label>
-          <div>
-          <select  name="algorithm_tag" >
-            <option value="none">=== 알고리즘선택 ===</option>
-            <option value="sort">sort</option>
-            <option value="bfs">bfs</option>
-            <option value="dfs">dfs</option>
-          </select>
-          </div>  
-          <div class="form-group">
-            <label for = "content">내용</label>
-            <textarea name="contents" id = "editor" class="form-control"></textarea>
-              <script>
-                ClassicEditor
-                  .create(document.querySelector( '#editor'), {
-                    language:{ui: 'ko', content: 'ko'}
-                  })
-                  .catch ( error =>{
-                      console.error(error);
-                  })
-              </script>
-          </div>  
-          <button type="button" class="btn btn-primary" style="float:right">등록 </button>
-          </form>
-      </div>
+        <form name="frm_pw" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="title">문제제목</label>
+                <input type="text" name="subject" class="form-control" placeholder="제목을 입력하세요">
+            </div>
+            <label for="tag">tag</label>
+            <div>
+                <select name="algorithm_tag">
+                    <option value="none">=== 알고리즘선택 ===</option>
+                    <option value="sort">sort</option>
+                    <option value="bfs">bfs</option>
+                    <option value="dfs">dfs</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="content">내용</label>
+                <textarea name="contents" id="editor" class="form-control"></textarea>
+                <script>
+                    ClassicEditor
+                        .create(document.querySelector('#editor'), {
+                            language: { ui: 'ko', content: 'ko' }
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        })
+                </script>
+            </div>
+            <button type="submit" class="btn btn-primary" style="float:right">등록 </button>
+        </form>
+    </div>
 </body>
 
 </html>
