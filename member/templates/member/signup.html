@@ -1,3 +1,4 @@
+
 {% load static %}
 <!doctype html>
 <html lang="en">
@@ -8,6 +9,38 @@
     <title>Signup</title>
     <link href="{% static 'css/signup.css' %}" rel="stylesheet">
 </head>
+<script>
+  function check_pw(){
+
+      var pw = document.getElementById('pw').value;
+      var SC = ["!","@","#","$","%"];
+      var check_SC = 0;
+
+      if(pw.length < 6 || pw.length>16){
+          window.alert('비밀번호는 6글자 이상, 16글자 이하만 이용 가능합니다.');
+          document.getElementById('pw').value='';
+      }
+      for(var i=0;i<SC.length;i++){
+          if(pw.indexOf(SC[i]) != -1){
+              check_SC = 1;
+          }
+      }
+      if(check_SC == 0){
+          window.alert('!,@,#,$,% 의 특수문자가 들어가 있지 않습니다.')
+          document.getElementById('pw').value='';
+      }
+      if(document.getElementById('pw').value !='' && document.getElementById('pw2').value!=''){
+          if(document.getElementById('pw').value==document.getElementById('pw2').value){
+              document.getElementById('check').innerHTML='비밀번호가 일치합니다.'
+              document.getElementById('check').style.color='blue';
+          }
+          else{
+              document.getElementById('check').innerHTML='비밀번호가 일치하지 않습니다.';
+              document.getElementById('check').style.color='red';
+          }
+      }
+  }
+</script>
 
 <body>
   <header>
@@ -29,7 +62,7 @@
     <div class="id">
       <h4>이름</h4>
     </div>
-    <input type="name" id="floatingName" placeholder="Enter your name" name="member_name">
+    <input type="name" id="floatingName" placeholder="Enter your name", om name="member_name">
     
     <div class="id">
       <h4>아이디</h4>
@@ -39,12 +72,13 @@
     <div class="password">
       <h4>비밀번호</h4>
     </div>
-    <input type="password" id="floatingPassword" placeholder="Enter password" name="member_password">
+    <input type="password" id="pw" placeholder="Enter password" onchange="check_pw()" name="member_password">
     
     <div class="password">
       <h4>비밀번호 확인</h4>
     </div>
-    <input type="password" id="floatingPassword" placeholder="Check password" name="check_pw">
+    <input type="password" id="pw2" placeholder="Check password" onchange="check_pw()"  sname="check_pw" >
+    <div><span id="check"></span></div>
 
     <div class="checkbox mb-3">
       <label>
@@ -52,7 +86,7 @@
       </label>
     </div>
 
-    <button class="submit-btn" type="submit" onclick="location.href='{%url 'member:login' %}';">스터디 가입하기</button>
+    <button class="submit-btn" type="submit" onclick="location.href ='{%url 'member:login' %}';">스터디 가입하기</button>
     
     <div class="bottomText">
       이미 회원이신가요? <a href="#">로그인하기</a>

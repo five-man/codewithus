@@ -85,9 +85,9 @@ DATABASES = {
     },
     'custom': { # thirdapp에서 사용할 데이터베이스 설정 추가
     'ENGINE': 'django.db.backends.mysql',
-    'NAME': 'test18',
+    'NAME': 'test',
     'USER': 'root',
-    'PASSWORD': '1234',
+    'PASSWORD': 'aivle',
     'HOST': 'localhost',
     'PORT': 3306,
 }
