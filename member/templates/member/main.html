@@ -18,6 +18,17 @@
                 <a href="{%url 'member:main' %}">Code With US!</a>
             </h1>
         </div>
+
+        {% if request.session.member_name %}
+        <div class="navright" style="float:right;width:33%">
+            <div style="float:left;width:80%">
+                <a class = navright >{{ request.session.member_name }} 님 반갑습니다.</a>
+            </div>
+            <div style="float:right;width:20%">
+                <a class = navright href="{%url 'member:logout' %}">로그아웃</a>
+            </div>    
+        </div>
+        {% else %}
         <div class="navright" style="float:right;width:33%">
             <div style="float:left;width:80%">
                 <a class = navright href="{%url 'member:login' %}">로그인</a>
@@ -26,6 +37,8 @@
                 <a class = navright href="{%url 'member:signup' %}">회원가입</a>
             </div>    
         </div>
+        {% endif %}
+
     </nav>
     <div class="content">
         <div class="menu-button">

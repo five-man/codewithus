@@ -19,6 +19,7 @@ def login(request):
             messages.info(request, '아이디 혹은 비밀번호를 확인해주세요.')
             return render(request, 'member/login.html')
         else:
+            request.session['member_no'] = m.member_no
             request.session['member_email'] = m.member_email
             request.session['member_name'] = m.member_name
         return redirect('/main/')
@@ -40,3 +41,8 @@ def signup(request):
         return redirect('/login/')
     else:
         return render(request, 'member/signup.html')
+
+def logout(request):
+    
+    request.session.flush() # 전체 삭제
+    return redirect('/main/')
