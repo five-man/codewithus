@@ -1,0 +1,9 @@
+<form action="{% url 'file:file_upload' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="file">
+    <input type="text" name="fileTitle">
+    <input type="submit" value="전송">
+</form>
+{% for file in files %}
+<p>{{file.file_name}}</p>
+{% endfor %}
