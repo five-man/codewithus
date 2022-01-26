@@ -24,8 +24,19 @@ class Algorithm(models.Model):
     class Meta:
         managed = False
         db_table = 'algorithm'
+        app_label = 'member'
 
 
+class AlgorithmImage(models.Model):
+    image_no = models.AutoField(primary_key=True)
+    algo_no = models.ForeignKey(Algorithm, on_delete=models.CASCADE, db_column='algo_no')
+    image_root = models.CharField(max_length=1000)
+    image_name = models.CharField(max_length=1000)
+
+    class Meta:
+        managed = False
+        db_table = 'algorithm_image'
+        unique_together = (('image_no', 'algo_no'),)
 
 
 
@@ -43,16 +54,6 @@ class Solution(models.Model):
 
 
 
-class AlgorithmImage(models.Model):
-    image_no = models.AutoField(primary_key=True)
-    algo_no = models.ForeignKey(Algorithm, on_delete=models.CASCADE, db_column='algo_no')
-    image_root = models.CharField(max_length=1000)
-    image_name = models.CharField(max_length=1000)
-
-    class Meta:
-        managed = False
-        db_table = 'algorithm_image'
-        unique_together = (('image_no', 'algo_no'),)
 
 
 class Comment(models.Model):

@@ -53,9 +53,12 @@
                         <p>여러분의 동료가 여러분을 기다리고 있어요!</p>
                     </div>
                 </button>
+                <form method="post">
+                    {% csrf_token %} 
                 <button class="num2" onclick="location.href='{%url 'solve:today_exam' %}'">
                     <strong>Study 입장하기</strong>
                 </button>
+                </form>
             </div>
             <div class="row2">
                 <button class="num3" onclick="location.href='{%url 'solve:problem_list' %}'">

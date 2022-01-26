@@ -6,8 +6,11 @@ from django.contrib import messages
 
 # Create your views here.
 def main(request):
+    if request.method == "POST":
 
-    return render(request,"member/main.html")
+        return render(request,"solve/today_exam.html")
+    else:
+        return render(request,"member/main.html")
 
 def login(request):
     if request.method == 'POST':
@@ -34,7 +37,9 @@ def signup(request):
         member_name = request.POST.get('member_name')
         
         m = Member(
-            member_email=member_email, member_password=member_password, member_name=member_name)
+            member_email=member_email, 
+            member_password=member_password, 
+            member_name=member_name)
         m.member_joindate = timezone.now()
         m.save()
 

@@ -53,7 +53,7 @@
     </nav>
     <div class="container">
         <h3>오늘의 문제 올리기</h3>
-        <form name="frm_pw" method="POST">
+        <form name="frm_pw" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
                 <label for="title">문제제목</label>
@@ -67,10 +67,10 @@
                     <option value="bfs">bfs</option>
                     <option value="dfs">dfs</option>
                 </select>
-            </div>
+                <input type="file" name="image" value="파일첨부" multiple>
             <div class="form-group">
                 <label for="content">내용</label>
-                <textarea name="contents" id="editor" class="form-control"></textarea>
+                <textarea name="contents" id="editor" class="form-control" ></textarea>
                 <script>
                     ClassicEditor
                         .create(document.querySelector('#editor'), {
