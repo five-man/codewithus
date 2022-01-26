@@ -53,7 +53,7 @@
     </nav>
     <div class="container">
         <h3>오늘의 문제 올리기</h3>
-        <form name="frm_pw" method="POST">
+        <form name="frm_pw" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
                 <label for="title">문제제목</label>
@@ -62,11 +62,22 @@
             <label for="tag">tag</label>
             <div>
                 <select name="algorithm_tag">
-                    <option value="none">=== 알고리즘선택 ===</option>
-                    <option value="sort">sort</option>
-                    <option value="bfs">bfs</option>
-                    <option value="dfs">dfs</option>
+                    <option value="13">=== 알고리즘선택 ===</option>
+                    <option value=1>bianry</option>
+                    <option value=2>brute force</option>
+                    <option value=3>bfs</option>
+                    <option value=4>dfs</option>
+                    <option value=5>dynamic programming</option>
+                    <option value=6>graph</option>
+                    <option value=7>greedy</option>  
+                    <option value=8>hash</option>
+                    <option value=9>heap</option>
+                    <option value=10>sort</option>
+                    <option value=11>stack</option>
+                    <option value=12>queue</option>
+                    <option value=13>etc</option>
                 </select>
+                <input type="file" name="image" value="파일첨부" multiple>
             </div>
             <div class="form-group">
                 <label for="content">내용</label>
