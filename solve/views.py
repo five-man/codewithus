@@ -2,7 +2,7 @@ import datetime
 import os
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from config.settings import MEDIA_ROOT
+from config.settings import MEDIA_ROOT, STATIC_ROOT
 from member.models import Member
 
 from solve.models import Algorithm, AlgorithmImage, Tag
@@ -50,10 +50,10 @@ def problem_upload(request):
             # image_name = 
             i = AlgorithmImage(
                 image_name=uploadFile.name,
-                image_root= "/media/",
+                image_root= "static/media/",
                 algo_no=Algorithm.objects.get(algo_no=8))
             i.save()
-            save_path = os.path.join(MEDIA_ROOT,i.image_name)
+            save_path = os.path.join(STATIC_ROOT,i.image_name)
             with open(save_path, 'wb') as file:
                 for chunk in uploadFile.chunks():
                     file.write(chunk)
@@ -70,7 +70,7 @@ def today_exam(request):
     now = datetime.datetime.now()
     nowDate = now.strftime('%Y-%m-%d')
     
-    today_algo = Algorithm.objects.get(algo_update = '2021-12-07')
+    today_algo = Algorithm.objects.get(algo_update = '2022-01-26')
     algo_image_object = AlgorithmImage.objects.filter(algo_no= today_algo)
     # algo_image_object.
     # print(today_algo)
