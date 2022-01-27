@@ -1,14 +1,15 @@
 from django.utils import timezone
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from numpy import save
 import datetime, json, os
 from config.settings import BASE_DIR, MEDIA_ROOT, STATIC_ROOT
-from solve.models import Algorithm,AlgorithmImage, Comment, Solution, Tag
+from solve.models import Algorithm, AlgorithmImage, Comment, Solution, Tag, Likes
 from member.models import Member
 from django.contrib import messages
 from django.db.models import Count
 from django.core.paginator import Paginator
+from django.urls import reverse
 
 # Create your views here.
 
@@ -31,9 +32,32 @@ def problem_list(request):
         end_page = p.num_pages
     context = {'algo_list' : page_obj,
                 'page_range' : range(start_page, end_page+1)}
-
+    # request.session['algo_no'] = algo_list.algo_no
 
     return render(request,"solve/problem_list.html", context)
+
+
+def exam(request, algo_no):
+    if request.method=="POST":
+        sol_detail = request.POST.get('contents')
+        member_no = request.session.get('member_no')
+        #algo_no = Algorithm.objects.get(algo_no=algo_no)
+
+
+        s = Solution(
+            sol_detail = sol_detail,
+            algo_no = Algorithm.objects.get(algo_no=algo_no),
+            sol_like = 0,
+            member_no=Member.objects.get(member_no=member_no)
+        )
+        request.session['algo_no'] = s.algo_no
+        algo_no = s.algo_no
+        s.save()
+        return redirect('solve:solutions', algo_no)
+    else:
+        return render(request,"solve/exam.html")
+    # algo = Algorithm.objects.get(algo_no=algo_no)
+    # return render(request, "solve/exam.html", {'algo':algo})
 
 def problem_upload(request):
     # now = datetime.datetime.now()
@@ -84,45 +108,7 @@ def problem_upload(request):
 
     # return render(request,"solve/problem_upload.html")
 
-def today_exam(request):
-    if request.method=="POST":
-        now = datetime.datetime.now()
-        nowDate = now.strftime('%Y-%m-%d')
-        sol_detail = request.POST.get('contents')
-        member_no = request.session.get('member_no')
-        membername = Member.objects.get(member_no = member_no)
-        algo_no = Algorithm.objects.get(algo_update = nowDate)
 
-        s = Solution(
-            sol_detail = sol_detail,
-            algo_no = Algorithm.objects.get(algo_no=algo_no.algo_no),
-            sol_like = 0,
-            member_no=Member.objects.get(member_no=member_no)
-        )
-        
-        context = {
-            'today_sols' : Solution.objects.filter(algo_update=nowDate),
-            'name' : membername.member_name
-        }
-        
-        s.save()
-        return render(request, 'solve/solutions.html', context)
-    else:
-        # return render(request,"solve/today_exam.html")
-        now = datetime.datetime.now()
-        nowDate = now.strftime('%Y-%m-%d')
-        
-        today_algo = Algorithm.objects.get(algo_update = nowDate)
-        algo_image_object = AlgorithmImage.objects.filter(algo_no= today_algo)
-        # algo_image_object.
-        # print(today_algo)
-        
-        
-        return render(request, 'solve/today_exam.html', {'image':algo_image_object})
-
-
-# if __name__ =="__main__":
-#     problem_upload(request)
 
 def problem_upload_complete(request):
     
@@ -138,24 +124,6 @@ def problem_upload_complete(request):
     return redirect("/main/")
 
 
-
-def exam(request, algo_no):
-    algo = Algorithm.objects.get(algo_no=algo_no)
-    return render(request, "solve/exam.html", {'algo':algo})
-
-
-def sol_list(request, algo_no):
-    socm = Solution.objects.prefetch_related('cmt_rel_sol_no')
-    socm = socm.prefetch_related('likes_rel_sol_no')
-    socm = socm.filter(algo_no=algo_no)
-    
-    
-    socm = socm.values('sol_no', 'sol_detail', 'member_no__member_name', 'cmt_rel_sol_no__comment_detail','cmt_rel_sol_no__member_no__member_name', 'likes_rel_sol_no__likes_no').annotate(count=Count('likes_rel_sol_no__likes_no'))
-    
-    return render(
-        request, 'solve/solutions.html',
-        {'socm':socm,}
-    )
 #@login_required(login_url='member:login')
 def update_exam(request, sol_no):
     sol = Solution.objects.get(sol_no=sol_no)
