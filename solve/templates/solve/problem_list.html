@@ -67,7 +67,8 @@
                             <td class="today1">
                                 <p align="left">
                                     {% comment %} <a href ='/solve/problem_list/sol_list{{i.algo_no}}/'><strong>{{i.algo_title}}</strong></a> {% endcomment %}
-                                    <a href ='/solve/problem_list/exam{{i.algo_no}}/'><strong>{{i.algo_title}}</strong></a>
+                                    {% comment %} <a href ='/solve/problem_list/exam{{i.algo_no}}/'><strong>{{i.algo_title}}</strong></a> {% endcomment %}
+                                    <a href ="{% url 'solve:exam' i.algo_no %}"><strong>{{i.algo_title}}</strong></a>
                                     <span class="badge bg-primary">{{i.tag_id__tag_name}}</span>
                                 </p>
                                 <p align="left">

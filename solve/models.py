@@ -16,7 +16,7 @@ class Tag(models.Model):
 
 class Algorithm(models.Model):
     algo_no = models.AutoField(primary_key=True)
-    algo_update = models.DateTimeField()
+    #algo_update = models.DateTimeField()
     algo_title = models.CharField(max_length=50)
     algo_detail = models.TextField()
     member_no = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='member_no', related_name='algo_mem_no')
