@@ -31,9 +31,6 @@
         <div class="comback">
             <!-- <button class="comback-btn">문제로 돌아가기</button> -->
         </div>
-        {% comment %} {% for i in solcmlike %}
-            {{i.sol_no}}
-        {% endfor %}  {% endcomment %}
         {% for i in socm %}
         <div class="solutions-group">
             <div class="solution-info">
@@ -42,15 +39,7 @@
                     <strong>{{i.member_no__member_name}} / {{i.sol_no}}</strong>
                 </div>
                 <div class="solution-btn">
-                    {% comment %} {{like_count}} {% endcomment %}
-                    {% comment %} {% for z in like_count %}
-                        {% if z.like_count == None %}
-                            <button class="like-btn" value="">좋아요 0개</button>
-                        {% else %}
-                            <button class="like-btn" value="">좋아요 {{z.like_count}}개</button>
-                        {% comment %} {% endif %} {% endcomment %}
                         <button class="like-btn" value="">좋아요 {{i.count}}개</button> 
-                    {% comment %} {% endfor %} {% endcomment %}
                     <button class="adj-btn" onclick="location.href='/solve/today_exam/update_exam{{i.sol_no}}/';">수정</button>
                     <button class="del-btn">삭제</button>
                 </div>
@@ -65,12 +54,8 @@
                         <img class="user-icon" src="{% static 'css/user.jpg' %}" alt="user icon">
                     </div>
                     <div class="comment-body">
-                        {% comment %} {% for j in cmt_detail%} {% endcomment %}
                         <p class="comment-text">{{i.cmt_rel_sol_no__comment_detail}}</p>
-                        {% comment %} {% endfor %} 
-                        {% for j in .cmt_mem%}  {% endcomment %}
                         <h6>{{i.cmt_rel_sol_no__member_no__member_name}}</h6>
-                        {% comment %} {% endfor %} {% endcomment %}
                     </div>
                 </li>
                 <li class="commemt-line">
