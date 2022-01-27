@@ -26,35 +26,32 @@
 
   <nav>
     <div class="hamburger" style="float:left;width:33%">
-        <input type="checkbox" id="menuicon" class="hamburger">
-        <label for="menuicon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </label>
-        <div class="sidebar">
-            <div class="menu">
-                <h4 class="h4main">메뉴 입니다.</h4>
-                <div class="log_all side_list">메뉴1</div>
-                <div class="log_all side_list">메뉴2</div>
-                <div class="log_all side_list">메뉴3</div>
-                <div class="log_all side_list">메뉴4</div>
-            </div>
-        </div>    
+        
     </div>
     <div class="navcenter" style="float:center;width:33%">
         <h1>
-            <a href="#">Code With US!</a>
+            <a href="{%url 'member:main' %}">Code With US!</a>
         </h1>
     </div>
-    <div class="navright" style="float:right;width:33%">
-        <div style="float:left;width:80%">
-            <a class = navright href="#">로그인</a>
+    {% if request.session.member_name %}
+        <div class="navright" style="float:right;width:33%">
+            <div style="float:left;width:80%">
+                <a class = navright >{{ request.session.member_name }} 님 반갑습니다.</a>
+            </div>
+            <div style="float:right;width:20%">
+                <a class = navright href="{%url 'member:logout' %}">로그아웃</a>
+            </div>    
         </div>
-        <div style="float:right;width:20%">
-            <a class = navright href="#">회원가입</a>
-        </div>    
-    </div>
+        {% else %}
+        <div class="navright" style="float:right;width:33%">
+            <div style="float:left;width:80%">
+                <a class = navright href="{%url 'member:login' %}">로그인</a>
+            </div>
+            <div style="float:right;width:20%">
+                <a class = navright href="{%url 'member:signup' %}">회원가입</a>
+            </div>    
+        </div>
+        {% endif %}
   </nav>
     <main class="content">
         <div class="today-title">
@@ -65,18 +62,26 @@
         <div class="progress-bar progress-bar-striped 
         progress-bar-animated" style="width:70%;height:20px">70%
         </div>
+        
         <div class=exam-content onkeydown="resize(this)" onkeyup="resize(this)">
-            <!--입력값에 맞게 div수가 변해야됨-->
-            <div style="width:500px;height:300px;background-size: 100%100%; 
+            
+            {% comment %} {% for i in image %}
+            <div>
+                <img src="{% static 'assets/<i.image_name>' %}">
+            </div>
+            {%endfor%} {% endcomment %}
+            <img src="{% static 'assets/1.png' %}">
+            {% comment %} <div style="width:500px;height:300px;background-size: 100%100%; 
             background-image:URL(https://image.ajunews.com/content/image/2019/06/10/20190610144311678496.png);">
-        </div>
+            </div>
             <div style="width:500px;height:300px;background-size: 100%100%;
             background-image:URL(https://cdn.clien.net/web/api/file/F01/10229224/3b85e29bcdc529.png?w=780&h=30000);">
             </div>
             <div style="width:500px;height:300px;background-size: 100%100%;
             background-image:URL(https://cphoto.asiae.co.kr/listimglink/6/2017092015165812556_2.jpg);">
-            </div>
+            </div> {% endcomment %}
         </div>
+        
             <script>
                 function resize(obj) {
                 obj.style.height = "1px";
