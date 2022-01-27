@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>solutions</title>
+    <link rel="stylesheet" href="{% static 'css/solutions.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+    <script>
+        let commentCreate = document.querySelector('')
+    </script>
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="hamburger" style="float:left;width:33%"></div>
+        <div class="navcenter" style="float:center;width:33%">
+            <h1>
+                <a href="#">Code With US!</a>
+            </h1>
+        </div>
+        <div class="navright" style="float:right;width:33%">
+            <div style="float:left;width:80%">
+                <a class=navright href="#">로그인</a>
+            </div>
+            <div style="float:right;width:20%">
+                <a class=navright href="#">회원가입</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="comback">
+            <!-- <button class="comback-btn">문제로 돌아가기</button> -->
+        </div>
+        <div class="solutions-group">
+            <div class="solution-info">
+                <div class="user-icon-div">
+                    <img class="user-icon" src="assets/user.jpg" alt="user icon">
+                    <strong>에이블러님</strong>
+                </div>
+                <div class="solution-btn">
+                    <button class="like-btn" value="">좋아요 10개</button>
+                    <button class="adj-btn">수정</button>
+                    <button class="del-btn">삭제</button>
+                </div>
+            </div>
+            <div class="solution">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum impedit temporibus, error facere ipsa
+                    vitae rem repellendus quam possimus blanditiis sed eaque ab tempora iste minus sapiente eligendi
+                    libero nihil?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum impedit temporibus, error
+                    facere ipsa vitae rem repellendus quam possimus blanditiis sed eaque ab tempora iste minus sapiente
+                    eligendi libero nihil?</p>
+            </div>
+            <ul class="comments">
+                <li class="comment-item">
+                    <div class="comment-head">
+                        <img class="user-icon" src="assets/user.jpg" alt="user icon">
+                    </div>
+                    <div class="comment-body">
+                        <p class="comment-text">와 진짜 깔끔하다</p>
+                        <h6>서승우</h6>
+                    </div>
+                </li>
+                <li class="comment-item">
+                    <div class="comment-head">
+                        <img class="user-icon" src="assets/user.jpg" alt="user icon">
+                    </div>
+                    <div class="comment-body">
+                        <p class="comment-text">새로 추가된 테스트 케이스는 통과 못하는 것 같습니다......새로 추가된 테스트 케이스는 통과 못하는 것 같습니다.....새로 추가된 테스트 케이스는 통과 못하는 것 같습니다.....새로 추가된 테스트 케이스는 통과 못하는 것 같습니다.....새로 추가된 테스트 케이스는 통과 못하는 것 같습니다.....새로 추가된 테스트 케이스는 통과 못하는 것 같습니다.....</p>
+                        <h6>서승우</h6>
+                    </div>
+                </li>
+                <li class="commemt-line">
+                    <!-- -------------------------------------------------------------- -->
+                    <form class="comment-create" method="post">
+                        {% csrf_token %}
+                        <div class="comment-form">
+                            <input type="text" class="comment-write" placeholder="댓글을 입력하세요"></input>
+                            <input type="submit" class="register-btn" value="등록">
+                        </div>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
