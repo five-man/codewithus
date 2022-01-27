@@ -229,6 +229,11 @@ a {
     background: #eee;
 }
 
+.board_list_wrap .paging a.abt {
+    border: 1px solid green;
+    background: green;
+}
+
 .board_list_wrap .paging a.num {
     border: 1px solid green;
     font-weight: 600;

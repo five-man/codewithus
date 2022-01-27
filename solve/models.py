@@ -10,6 +10,7 @@ class Tag(models.Model):
 
     class Meta:
         managed = False
+        #app_label='member'
         db_table = 'tag'
 
 
@@ -18,12 +19,16 @@ class Algorithm(models.Model):
     algo_update = models.DateTimeField()
     algo_title = models.CharField(max_length=50)
     algo_detail = models.TextField()
-    member_no = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='member_no')
+    member_no = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='member_no', related_name='algo_mem_no')
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
 
     class Meta:
         managed = False
+        app_label='member'
         db_table = 'algorithm'
+    
+    def __str__(self):
+        return int(self.member_no)
 
 
 
@@ -33,14 +38,17 @@ class Solution(models.Model):
     sol_no = models.AutoField(primary_key=True)
     algo_no = models.ForeignKey(Algorithm, on_delete=models.CASCADE, db_column='algo_no')
     sol_detail = models.TextField()
-    sol_like = models.IntegerField()
+    sol_like = models.IntegerField(null=True)
     member_no = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='member_no')
+    
 
     class Meta:
         managed = False
+        app_label='member'
         db_table = 'solution'
         unique_together = (('sol_no', 'algo_no'),)
 
+    
 
 
 class AlgorithmImage(models.Model):
@@ -51,6 +59,7 @@ class AlgorithmImage(models.Model):
 
     class Meta:
         managed = False
+        app_label='member'
         db_table = 'algorithm_image'
         unique_together = (('image_no', 'algo_no'),)
 
@@ -64,6 +73,7 @@ class Comment(models.Model):
 
     class Meta:
         managed = False
+        app_label='member'
         db_table = 'comment'
         unique_together = (('comment_no', 'sol_no', 'algo_no'),)
 
@@ -78,5 +88,6 @@ class Likes(models.Model):
 
     class Meta:
         managed = False
+        app_label='member'
         db_table = 'likes'
         unique_together = (('likes_no', 'sol_no', 'algo_no', 'member_no'),)
