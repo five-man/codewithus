@@ -15,6 +15,7 @@ class File(models.Model):
 
     class Meta:
         managed = False
+        app_label = 'member'
         db_table = 'file'
 
 

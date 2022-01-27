@@ -28,6 +28,7 @@ urlpatterns = [
     path('login/', memberviews.login),
     path('member/', include('member.urls')),
     path('solve/', include('solve.urls')),
+    path('file/', include('file.urls')),
     path('problem_list/', solveviews.problem_list),
     path('problem_upload/', solveviews.problem_upload),
     path('today_exam/', solveviews.today_exam),
