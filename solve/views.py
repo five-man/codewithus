@@ -1,14 +1,13 @@
-import datetime
-import json
+import datetime, json, os
 from django.utils import timezone
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from numpy import save
-import os
 from config.settings import BASE_DIR, MEDIA_ROOT
 from solve.models import Algorithm, AlgorithmImage, Comment, Solution
 from member.models import Member
 from django.db.models import Count
+from django.core import serializers
 
 # Create your views here.
 
@@ -72,15 +71,15 @@ def today_exam(request):
     return render(request, "solve/today_exam.html")
 
 
-def solutions(request, sol_no=50):
-    solution = Solution.objects.get(sol_no=sol_no)
+def solutions(request, algo_no=50):
+    solution = Solution.objects.filter(algo_no = algo_no)
 
-    reply = Comment.objects.filter(sol_no=sol_no)
+    reply = Comment.objects.filter(sol_no__in = solution)
 
     try:
         session = request.session.get('member_no')
         context = {
-            'solution': solution,
+            'solutions': solution,
             'reply': reply,
             'session': session,
         }
@@ -88,15 +87,14 @@ def solutions(request, sol_no=50):
     except KeyError:
         return redirect('member/main')
 
-from django.core import serializers
-
 def reply(request):
     member_no = request.session.get('member_no')
     jsonObject = json.loads(request.body)
-    solno =jsonObject.get('sol_no')
+    solno = jsonObject.get('sol_no')
     reply = Comment.objects.create(
         sol_no=Solution.objects.get(sol_no=solno),
-        algo_no=Solution.objects.get(algo_no=50),
+        # algo_no=Solution.objects.get(algo_no=50),
+        algo_no=Solution.objects.get(sol_no=solno),
         member_no=Member.objects.get(member_no=member_no),
         comment_detail=jsonObject.get('comment_detail'),
     )
