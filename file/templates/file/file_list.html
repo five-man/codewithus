@@ -1,0 +1,117 @@
+{%load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/file_list.css'%}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<body>
+    <nav>
+        <div class="hamburger" style="float:left;width:33%">
+        </div>
+        <div class="navcenter" style="float:center;width:33%">
+            <h1>
+                <a href="#">Code With US!</a>
+            </h1>
+        </div>
+        {% if request.session.member_name %}
+        <div class="navright" style="float:right;width:33%">
+            <div style="float:left;width:80%">
+                <a class = navright >{{ request.session.member_name }} 님 반갑습니다.</a>
+            </div>
+            <div style="float:right;width:20%">
+                <a class = navright href="{%url 'member:logout' %}">로그아웃</a>
+            </div>    
+        </div>
+        {% else %}
+        <div class="navright" style="float:right;width:33%">
+            <div style="float:left;width:80%">
+                <a class = navright href="{%url 'member:login' %}">로그인</a>
+            </div>
+            <div style="float:right;width:20%">
+                <a class = navright href="{%url 'member:signup' %}">회원가입</a>
+            </div>    
+        </div>
+        {% endif %}
+    </nav>
+
+    <div class="board_list_wrap">
+        <div>
+            <form action="{% url 'file:file_upload'%}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="file">
+                <input type="text" name="fileTitle" placeholder="글의 제목">
+                <input type="submit" value="전송">
+            </form>
+        </div>
+        <tr>
+            <strong>
+                <p style="font-size: 30px;">파일 목록</p>
+            </strong>
+            <select style="float: right;" name="language">
+                <option value="none">=== 선택 ===</option>
+                <option value="korean">1</option>
+                <option value="english">2</option>
+                <option value="chinese">3</option>
+            </select>
+        </tr>
+        <table class="board_list">
+            <caption>파일 목록</caption>
+            <thead>
+                <th>제목</th>
+                <th>파일 이름</th>
+                <th>업로드 날짜</th>
+                <th>작성자</th>
+            </thead>
+            <tbody>
+                {% for list in filelist%}
+                <tr>
+                    <td>{{list.file_no.file_name}}</td>
+                    <td>
+                        <form action="{% url 'file:file_download'%}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="filename" value="{{ list.file_name }}">{{list.file_root}}
+                        </button>
+                        </form>
+                    </td>
+                    <td>{{list.file_no.file_date}}</td>
+                    <td>{{list.file_no.member_no.member_name}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+            <div style="text-align:center">
+                <div class="paging">
+                {% if files.has_previous %}
+                    <a href="?page=1" class="bt">맨 앞</a>}
+                    <a href="?page={{ files.previous_page_number }}" class="bt">이전</a>
+                {% else %}
+                    <a href="#" class="bt">맨 앞</a>}
+                    <a href="#" class="bt">이전</a>
+                {% endif %}
+
+                {% for i in page_range %}
+                    {% if i == files.number %}
+                        <a href='{% url "file:file_upload" %}?page={{ i }}' class="num on">{{ i }}</a>
+                    {% elif i == 0 %}
+                        <a href='{% url "file:file_upload" %}?page={{ i }}' class="num on">{{ i }}</a>
+                    {% else %}
+                        <a href='{% url "file:file_upload" %}?page={{ i }}' class="num">{{ i }}</a>
+                    {% endif %}
+                {% endfor %}
+                {% if files.has_next %}
+                    <a href="?page={{ files.next_page_number }}" class="bt">다음</a>
+                    <a href="?page={{ files.paginator.num_pages }}" class="bt">맨 뒤</a> 
+                {% else %}
+                    <a href="#" class="bt">다음</a>
+                    <a href="#" class="bt">맨 뒤</a> 
+                {% endif %}
+        </form>
+    </div>
+</body>
+
+</html>
