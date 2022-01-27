@@ -31,6 +31,14 @@
     </nav>
 
     <div class="board_list_wrap">
+        <div>
+            <form action="{% url 'file:file_upload'%}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="file">
+                <input type="text" name="fileTitle" placeholder="글의 제목">
+                <input type="submit" value="전송">
+            </form>
+        </div>
         <tr>
             <strong>
                 <p style="font-size: 30px;">파일 목록</p>
@@ -45,6 +53,7 @@
         <table class="board_list">
             <caption>파일 목록</caption>
             <thead>
+                <th>제목</th>
                 <th>파일 이름</th>
                 <th>업로드 날짜</th>
                 <th>작성자</th>
@@ -52,7 +61,8 @@
             <tbody>
                 {% for list in filelist%}
                 <tr>
-                    <td>{{list.file_name}}</td>
+                    <td>{{list.file_no.file_name}}</td>
+                    <td><a href="">{{list.file_root}}</a></td>
                     <td>{{list.file_no.file_date}}</td>
                     <td>{{list.file_no.member_no.member_name}}</td>
                 </tr>
