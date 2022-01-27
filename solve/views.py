@@ -1,8 +1,11 @@
 from datetime import timezone
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import redirect, render, get_object_or_404
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
-
-from solve.models import Algorithm
+import json
+from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
+from solve.models import Algorithm, Comment
 
 # Create your views here.
 def problem_list(request):
@@ -36,3 +39,31 @@ def problem_upload(request):
 def today_exam(request):
 
     return render(request,"solve/today_exam.html")
+
+
+def solutions(request):
+    return render(request, "solve/solutions.html")
+
+from django.http import HttpResponse
+import json
+from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
+
+
+def comment_write_view(request, pk):
+    post = get_object_or_404(Comment, id=pk)
+    writer = request.POST.get('writer')
+    content = request.POST.get('content')
+    if content:
+        comment = Comment.objects.create(post=post, content=content, writer=request.user)
+        post.save()
+        data = {
+            'writer': writer,
+            'content': content,
+            'created': '방금 전',
+            'comment_id': comment.id
+        }
+        if request.user == post.writer:
+            data['self_comment'] = '(글쓴이)'
+        
+        return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type = "application/json")
