@@ -20,14 +20,25 @@
                 <a href="#">Code With US!</a>
             </h1>
         </div>
+        {% if request.session.member_name %}
         <div class="navright" style="float:right;width:33%">
             <div style="float:left;width:80%">
-                <a class=navright href="#">로그인</a>
+                <a class = navright >{{ request.session.member_name }} 님 반갑습니다.</a>
             </div>
             <div style="float:right;width:20%">
-                <a class=navright href="#">회원가입</a>
-            </div>
+                <a class = navright href="{%url 'member:logout' %}">로그아웃</a>
+            </div>    
         </div>
+        {% else %}
+        <div class="navright" style="float:right;width:33%">
+            <div style="float:left;width:80%">
+                <a class = navright href="{%url 'member:login' %}">로그인</a>
+            </div>
+            <div style="float:right;width:20%">
+                <a class = navright href="{%url 'member:signup' %}">회원가입</a>
+            </div>    
+        </div>
+        {% endif %}
     </nav>
 
     <div class="board_list_wrap">
@@ -62,7 +73,13 @@
                 {% for list in filelist%}
                 <tr>
                     <td>{{list.file_no.file_name}}</td>
-                    <td><a href="">{{list.file_root}}</a></td>
+                    <td>
+                        <form action="{% url 'file:file_download'%}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="filename" value="{{ list.file_name }}">{{list.file_root}}
+                        </button>
+                        </form>
+                    </td>
                     <td>{{list.file_no.file_date}}</td>
                     <td>{{list.file_no.member_no.member_name}}</td>
                 </tr>
