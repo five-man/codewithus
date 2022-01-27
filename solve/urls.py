@@ -9,5 +9,7 @@ urlpatterns = [
     path('problem_upload/complete', views.problem_upload_complete, name='problem_upload_complete'),    
     # path('problem_upload/fail', views.problem_upload_fail, name='problem_upload_fail'),    
     path('today_exam/', views.today_exam, name='today_exam'),    
-    path('solutions/', views.solutions, name='solutions'),    
+    path('problem_list/solutions<int:algo_no>/', views.solutions, name='solutions'),
+    # path('solutions/', views.solutions, name='solutions'),    
+    # path('today_exam/update_exam<int:sol_no>/', views.update_exam, name='update_exam'),
 ]

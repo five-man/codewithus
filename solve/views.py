@@ -2,6 +2,7 @@ import datetime
 import os
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from matplotlib.style import context
 from config.settings import MEDIA_ROOT, STATIC_ROOT
 from member.models import Member
 from django.contrib import messages
@@ -12,14 +13,11 @@ from solve.models import Algorithm, AlgorithmImage, Solution, Tag
 
 # Create your views here.
 def problem_list(request):
-    m = Member.objects.all()
-
     now_page = request.GET.get('page', 1)
     now_page = int(now_page)
-  
     algo_list = Algorithm.objects.values(
                                         'algo_no','algo_update', 'algo_title', 'algo_detail', 
-                                        'member_no__member_name', 'tag_id__tag_name').order_by('-algo_update')
+                                        'member_no__member_name', 'tag_id__tag_name').order_by('-algo_no')
     p = Paginator(algo_list, 5)
     page_obj = p.get_page(now_page)
 
@@ -40,7 +38,7 @@ def problem_upload(request):
         
     if request.method == 'POST':
         algo_title = request.POST.get('subject')
-        algo_detailaa = request.POST.get('contents')
+        algo_detail = request.POST.get('contents')
         tag = request.POST.get('algorithm_tag')
         member_no = request.session.get('member_no')
         uploadedFile= request.FILES.getlist("image")
@@ -55,7 +53,7 @@ def problem_upload(request):
         except Algorithm.DoesNotExist as e:
             a = Algorithm(
                 algo_title=algo_title, 
-                algo_detail=algo_detailaa, 
+                algo_detail=algo_detail, 
                 member_no=Member.objects.get(member_no=member_no),
                 tag_id=tag,
                 algo_update = nowDate
@@ -84,78 +82,77 @@ def problem_upload(request):
     # return render(request,"solve/problem_upload.html")
 
        
-    
+
+def solutions(request, algo_no):
+    socm = Solution.objects.prefetch_related('cmt_rel_sol_no')
+    socm = socm.prefetch_related('likes_rel_sol_no')
+    socm = socm.filter(algo_no=algo_no)
+    socm = socm.values('sol_no', 'sol_detail', 'member_no__member_name', 'cmt_rel_sol_no__comment_detail','cmt_rel_sol_no__member_no__member_name', 'likes_rel_sol_no__likes_no').annotate(count=Count('likes_rel_sol_no__likes_no'))
+    return render(
+        request, 'solve/solutions.html',
+        {'socm':socm,
+        }
+    )    
+def ceil(n):
+    if n ==int(n):
+        return n
+    else:
+        return int(n)+1
 
 def today_exam(request):
-    if request.method=="POST":
-        now = datetime.datetime.now()
-        nowDate = now.strftime('%Y-%m-%d')
-        sol_detail = request.POST.get('contents')
-        member_no = request.session.get('member_no')
-        membername = Member.objects.get(member_no = member_no)
-        algo_no = Algorithm.objects.get(algo_update = nowDate)
+    
+    if request.method=="POST": # 풀이 작성시
+        try:
+           is_ok = Solution.objects.get(member_no = request.session.get('member_no'))
+        except Solution.DoesNotExist as e: 
+            now = datetime.datetime.now()
+            nowDate = now.strftime('%Y-%m-%d')
+            
+            sol_detail = request.POST.get('contents')
+            member_no = request.session.get('member_no')
+            # membername = Member.objects.get(member_no = member_no)
+            algo_no = Algorithm.objects.get(algo_update = nowDate)
 
-        s = Solution(
-            sol_detail = sol_detail,
-            algo_no = Algorithm.objects.get(algo_no=algo_no.algo_no),
-            sol_like = 0,
-            member_no=Member.objects.get(member_no=member_no)
-        )
-        
-        context = {
-            'today_sols' : Solution.objects.filter(algo_update=nowDate),
-            'name' : membername.member_name
-        }
-        
-        s.save()
-        return render(request, 'solve/solutions.html', context)
+            s = Solution(
+                algo_no = algo_no,
+                sol_detail = sol_detail,
+                sol_like = 0,
+                member_no=Member.objects.get(member_no=member_no)
+            )
+            
+            
+            # today_sols = Solution.objects.filter(algo_update=nowDate)
+            s.save()
+            
+            # 문제 제출 확인
+            return render(request, 'solve/solution_insert.html')
+        return render(request, 'solve/already_sol.html')
     else:
-        # return render(request,"solve/today_exam.html")
         now = datetime.datetime.now()
         nowDate = now.strftime('%Y-%m-%d')
+        try:   
+            # 진행상태바 퍼센트정보
+            today_algo = Algorithm.objects.get(algo_update = nowDate)
+            total_member = Member.objects.count()
+            today_member = Solution.objects.filter(algo_no = today_algo).count()
+            percent= ceil(today_member/total_member*100)
+            # 이미지            
+            algo_image_object = AlgorithmImage.objects.filter(algo_no= today_algo)
+            pe=str(percent) +"%"
+            data = {
+                'percent': percent,
+                'image': algo_image_object,
+                'pe':pe
+                }
         
-        today_algo = Algorithm.objects.get(algo_update = nowDate)
-        algo_image_object = AlgorithmImage.objects.filter(algo_no= today_algo)
-        # algo_image_object.
-        # print(today_algo)
+        except Algorithm.DoesNotExist as e:
+            # 오늘의 문제 없음
+            return render(request, 'solve/no_today_exam.html')
         
         
-        return render(request, 'solve/today_exam.html', {'image':algo_image_object})
+        return render(request, 'solve/today_exam.html', data)
 
 
-# if __name__ =="__main__":
-#     problem_upload(request)
-
-
-
-
-def solutions(request):
-
-    return render(request,"solve/solutions.html")
-
-
-
-
-# from django.views.decorators.csrf import csrf_exempt
-# from django.http import JsonResponse
-# from django.forms.models import model_to_dict
-# @csrf_exempt
-# def ajaxGet(request):
-#     # QuerySet [] 상태의 c 
-#     c = Course.objects.all()
-    
-#     data = []
-#     # model_to_dict - 조회된 데이터를 딕셔너리 형태로 변경
-#     for i in c:
-#         transformedData = model_to_dict(i)
-#         data.append(transformedData)
-
-#     return JsonResponse(data, safe=False)
-
-
-# def ajaxExam(request):
-    
-#     return render(request, 'secondapp/ajax_exam.html')
 
 
 def problem_upload_complete(request):
@@ -181,6 +178,7 @@ def sol_list(request, algo_no):
         request, 'solve/solutions.html',
         {'socm':socm,}
     )
+    
 #@login_required(login_url='member:login')
 def update_exam(request, sol_no):
     sol = Solution.objects.get(sol_no=sol_no)
@@ -207,3 +205,5 @@ def delete_exam(request, pk):
     sol = Solution.objects.get(sol_no=pk)
     sol.delete()
     return redirect('원래 페이지')
+
+

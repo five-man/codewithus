@@ -12,7 +12,7 @@ class Tag(models.Model):
     class Meta:
         managed = False
         db_table = 'tag'
-        app_label = 'member'
+        # app_label = 'member'
 
 
 class Algorithm(models.Model):
@@ -43,6 +43,7 @@ class Solution(models.Model):
         managed = False
         db_table = 'solution'
         unique_together = (('sol_no', 'algo_no'),)
+        app_label = 'member'
 
 
 
@@ -71,6 +72,7 @@ class Comment(models.Model):
         managed = False
         db_table = 'comment'
         unique_together = (('comment_no', 'sol_no', 'algo_no'),)
+        app_label = 'member'
 
 
 
@@ -85,3 +87,4 @@ class Likes(models.Model):
         managed = False
         db_table = 'likes'
         unique_together = (('likes_no', 'sol_no', 'algo_no', 'member_no'),)
+        app_label = 'member'
