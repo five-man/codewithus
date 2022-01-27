@@ -1,11 +1,12 @@
 import datetime
+import json
 from django.utils import timezone
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from numpy import save
 import os
 from config.settings import BASE_DIR, MEDIA_ROOT
-from solve.models import Algorithm,AlgorithmImage
+from solve.models import Algorithm,AlgorithmImage, Comment, Solution
 from member.models import Member
 
 # Create your views here.
@@ -70,3 +71,39 @@ def today_exam(request):
     
     
     return render(request,"solve/today_exam.html")
+
+def solutions(request,sol_no=50):
+    solution = Solution.objects.get(sol_no=sol_no)
+
+    reply = Comment.objects.filter(sol_no=sol_no)
+
+    try:
+        session = request.session.get('member_no')
+        context = {
+            'solution': solution,
+            'reply': reply,
+            'session': session,
+        }
+        return render(request, 'solve/solutions.html', context)
+    except KeyError:
+        return redirect('member/main')
+
+
+def reply(request):
+    member_no = request.session.get('member_no')
+    jsonObject = json.loads(request.body)
+
+    reply = Comment.objects.create(
+        sol_no=Solution.objects.get(sol_no=50),
+        algo_no=Solution.objects.get(algo_no=50),
+        member_no=Member.objects.get(member_no=member_no),
+        comment_detail=jsonObject.get('comment_detail'),
+    )
+    reply.save()
+
+    context = {
+        # 'name' : reply.member_no,
+        'content' : reply.comment_detail,
+    }
+
+    return JsonResponse(context)
