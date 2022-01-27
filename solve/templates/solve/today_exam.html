@@ -27,7 +27,6 @@
 <body>
     <header>
     </header>
-
     <nav>
         <div style="float:left;width:33%">
             
@@ -68,6 +67,7 @@
         <div class="progress-bar progress-bar-striped 
         progress-bar-animated" style="width:70%;height:20px">70%
         </div>
+        
         <div class=exam-content onkeydown="resize(this)" onkeyup="resize(this)">
             <!--입력값에 맞게 div수가 변해야됨-->
             
@@ -89,12 +89,7 @@
             <div >
                 <img style="width:500px;height:600px;background-size: 100%100%;" src="{% static i.image_name %}">
             </div>
-            {%endfor%}
-
-
-
-            
-            
+            {%endfor%} 
         </div>
         <script>
             function resize(obj) {

@@ -44,7 +44,19 @@
     <div class="content">
         <div class="menu-button">
             <div class="row1">
+                {% if request.session.member_name %}
                 <button class="num1">
+                    <div>
+                        <strong>{{ request.session.member_name }} 님 반갑습니다.</strong>
+                    </div>
+                    <div class="words">
+                        <p>함께 배우면서</p>
+                        <p>같이 성장하는 스터디</p>
+                        <p>여러분의 동료가 여러분을 기다리고 있어요!</p>
+                    </div>
+                </button>
+                {% else %}
+                <button class="num1" onclick="location.href='{%url 'member:login' %}'">
                     <div>
                         <strong>Study 시작하기</strong>
                     </div>
@@ -54,9 +66,12 @@
                         <p>여러분의 동료가 여러분을 기다리고 있어요!</p>
                     </div>
                 </button>
+                {% endif %}
+
                 <button class="num2" onclick="location.href='{%url 'solve:today_exam' %}'">
                     <strong>Study 입장하기</strong>
                 </button>
+          
             </div>
             <div class="row2">
                 <button class="num3" onclick="location.href='{%url 'solve:problem_list' %}'">

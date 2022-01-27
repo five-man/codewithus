@@ -29,6 +29,17 @@ class Algorithm(models.Model):
         app_label = 'member'
 
 
+class AlgorithmImage(models.Model):
+    image_no = models.AutoField(primary_key=True)
+    algo_no = models.ForeignKey(Algorithm, on_delete=models.CASCADE, db_column='algo_no')
+    image_root = models.CharField(max_length=1000)
+    image_name = models.CharField(max_length=1000)
+
+    class Meta:
+        managed = False
+        db_table = 'algorithm_image'
+        unique_together = (('image_no', 'algo_no'),)
+        app_label = 'member'
 
 
 
@@ -43,22 +54,18 @@ class Solution(models.Model):
         managed = False
         db_table = 'solution'
         unique_together = (('sol_no', 'algo_no'),)
-
-
-
-class AlgorithmImage(models.Model):
-    image_no = models.AutoField(primary_key=True)
-    algo_no = models.ForeignKey(Algorithm, on_delete=models.CASCADE, db_column='algo_no')
-    image_root = models.CharField(max_length=1000)
-    image_name = models.CharField(max_length=1000)
-    # image = models.ImageField()
-
-    class Meta:
-        managed = False
-        db_table = 'algorithm_image'
-        unique_together = (('image_no', 'algo_no'),)
         app_label = 'member'
 
+# class Likes(models.Model):
+#     likes_no = models.AutoField(primary_key=True)
+#     sol_no = models.ForeignKey(Solution, on_delete=models.CASCADE, db_column='sol_no', related_name='likes_rel_sol_no')
+#     algo_no = models.ForeignKey(Solution, on_delete=models.CASCADE, db_column='algo_no', related_name='likes_rel_algo_no')
+#     member_no = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='member_no')
+
+#     class Meta:
+#         managed = False
+#         db_table = 'likes'
+#         unique_together = (('likes_no', 'sol_no', 'algo_no', 'member_no'),)
 
 class Comment(models.Model):
     comment_no = models.AutoField(primary_key=True)
@@ -71,6 +78,7 @@ class Comment(models.Model):
         managed = False
         db_table = 'comment'
         unique_together = (('comment_no', 'sol_no', 'algo_no'),)
+        app_label = 'member'
 
 
 

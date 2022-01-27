@@ -148,6 +148,7 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'solve/static/')
 
 MEDIA_URL = '/media/'
@@ -163,4 +164,3 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'ktaivle5@gmail.com'
 EMAIL_HOST_PASSWORD= 'aivle202101!'
 DEFAULT_FROM_MAIL = 'EMAIL_HOST_USER'
-
