@@ -1,5 +1,5 @@
 from django.utils import timezone
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from matplotlib.style import context
 from numpy import save

@@ -52,7 +52,7 @@ def uploadFile(request):
         )
 
         try:
-            with open(file_root+"wer/"+name, 'wb') as piz: # 파일 저장
+            with open(file_root+"/"+name, 'wb') as piz: # 파일 저장
                 for chunk in uploadedFile.chunks():
                     piz.write(chunk)
         except FileNotFoundError:
@@ -61,25 +61,25 @@ def uploadFile(request):
 
         filelist.save()
     filelist = FileList.objects.all()
-    documents = File.objects.all()
+    # documents = File.objects.all()
 
-    now_page = request.GET.get('page', 1)
-    now_page = int(now_page)
+    # now_page = request.GET.get('page', 1)
+    # now_page = int(now_page)
 
-    p = Paginator(documents, 5)
-    page_obj = p.get_page(now_page)
+    # p = Paginator(documents, 5)
+    # page_obj = p.get_page(now_page)
 
-    start_page = (now_page-1) // 10 * 10 + 1
-    end_page = start_page + 9
-    if end_page > p.num_pages:
-        end_page = p.num_pages
+    # start_page = (now_page-1) // 10 * 10 + 1
+    # end_page = start_page + 9
+    # if end_page > p.num_pages:
+    #     end_page = p.num_pages
 
-    context = {"files": page_obj,
-                'page_range' : range(start_page, end_page+1), "filelist": filelist}
+    # context = {"files": page_obj,
+    #             'page_range' : range(start_page, end_page+1), "filelist": filelist}
 
-    return render(request, "file/file_list.html", context)
+    return render(request, "file/file_list.html", {"filelist": filelist})
 
-  def download(request):
+def download(request):
     if request.method == 'POST':
         fn = request.POST["filename"]
         filename = FileList.objects.get(file_name = fn)

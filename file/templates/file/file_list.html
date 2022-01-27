@@ -15,7 +15,7 @@
         </div>
         <div class="navcenter" style="float:center;width:33%">
             <h1>
-                <a href="#">Code With US!</a>
+                <a href="/main/">Code With US!</a>
             </h1>
         </div>
         {% if request.session.member_name %}
@@ -41,7 +41,7 @@
 
     <div class="board_list_wrap">
         <div>
-            <form action="{% url 'file:file_upload'%}" method="post" enctype="multipart/form-data">
+            <form location.href="{% url 'file:file_upload'%}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="file" name="file">
                 <input type="text" name="fileTitle" placeholder="글의 제목">
@@ -84,6 +84,7 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% comment %} <form>
             <div style="text-align:center">
                 <div class="paging">
                 {% if files.has_previous %}
@@ -110,7 +111,7 @@
                     <a href="#" class="bt">다음</a>
                     <a href="#" class="bt">맨 뒤</a> 
                 {% endif %}
-        </form>
+        </form> {% endcomment %}
     </div>
 </body>
 

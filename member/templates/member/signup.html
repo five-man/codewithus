@@ -1,4 +1,3 @@
-
 {% load static %}
 <!doctype html>
 <html lang="en">
@@ -72,12 +71,12 @@
     <div class="password">
       <h4>비밀번호</h4>
     </div>
-    <input type="password" id="pw" placeholder="Enter password" onchange="check_pw()" name="member_password">
+    <input type="password", name="userPW" id="pw"  onchange="check_pw()" name="member_password">
     
     <div class="password">
       <h4>비밀번호 확인</h4>
     </div>
-    <input type="password" id="pw2" placeholder="Check password" onchange="check_pw()"  name="check_pw" >
+    <input type="password" name="userPW2" id="pw2"  onchange="check_pw()"  name="check_pw" >
     <div><span id="check"></span></div>
 
     <div class="checkbox mb-3">
