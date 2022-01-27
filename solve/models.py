@@ -37,6 +37,7 @@ class AlgorithmImage(models.Model):
         managed = False
         db_table = 'algorithm_image'
         unique_together = (('image_no', 'algo_no'),)
+        app_label = 'member'
 
 
 

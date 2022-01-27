@@ -88,6 +88,20 @@ button{
     position: relative;
 }
 
+.online{
+    border: none;
+    height: 40vh;
+    width: 40vw;
+    border-radius: 8px;
+    margin: 10px;
+    background: white;
+    transition: box-shadow 250ms ease-in;
+    transition: transform 250ms ease-in;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+}
+
 .num1{
     width: 60%;
 }

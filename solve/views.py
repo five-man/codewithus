@@ -1,3 +1,4 @@
+import datetime
 from django.utils import timezone
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
@@ -37,13 +38,13 @@ def problem_upload(request):
             i = AlgorithmImage(
                 image_name=uploadFile.name,
                 image_root= "/media/",
-                algo_no=Algorithm.objects.get(algo_no=8))
+                algo_no=Algorithm.objects.get(algo_no=87))
             i.save()
             save_path = os.path.join(MEDIA_ROOT,i.image_name)
             with open(save_path, 'wb') as file:
                 for chunk in uploadFile.chunks():
                     file.write(chunk)
-            
+
         # 글이 써지면 오늘의 문제로 
         return redirect('/today_exam/')
     else:
@@ -54,4 +55,18 @@ def problem_upload(request):
 
 def today_exam(request):
 
+    # now = datetime.datetime.now()
+    # nowDate = now.strftime('%Y-%m-%d')
+    
+    # today_algo = Algorithm.objects.get(algo_no = 87)
+    # algo_image_object = AlgorithmImage.objects.filter(algo_no=today_algo)
+
+    
+    # return render(request, 'solve/today_exam.html', {'image':algo_image_object.image_name})
+
+    
+    
+    
+    
+    
     return render(request,"solve/today_exam.html")
