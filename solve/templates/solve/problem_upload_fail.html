@@ -1,0 +1,62 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<link rel="stylesheet" href="{% static 'css/problem_upload.css' %}">
+<script src="https://cdn.ckeditor.com/ckeditor5/31.1.0/classic/ckeditor.js"></script>
+<style>
+    .ck-editor__editable {
+        min-height: 300px;
+    }
+</style>
+</head>
+
+<body>
+    <nav>
+        <div class="hamburger" style="float:left;width:33%">
+
+        </div>
+        <div class="navcenter" style="float:center;width:33%">
+            <h1>
+                <a href="{%url 'member:main' %}">Code With US!</a>
+            </h1>
+        </div>
+        {% if request.session.member_name %}
+        <div class="navright" style="float:right;width:33%">
+            <div style="float:left;width:80%">
+                <a class = navright >{{ request.session.member_name }} 님 반갑습니다.</a>
+            </div>
+            <div style="float:right;width:20%">
+                <a class = navright href="{%url 'member:logout' %}">로그아웃</a>
+            </div>    
+        </div>
+        {% else %}
+        <div class="navright" style="float:right;width:33%">
+            <div style="float:left;width:80%">
+                <a class = navright href="{%url 'member:login' %}">로그인</a>
+            </div>
+            <div style="float:right;width:20%">
+                <a class = navright href="{%url 'member:signup' %}">회원가입</a>
+            </div>    
+        </div>
+        {% endif %}
+        
+
+    </nav>
+    <div class="container">
+        <h1>이미 오늘의 문제가 있습니다. 내일 다시 시도해주세요.</h1>
+        <a href="{%url 'member:main' %}">홈으로</a>
+        <br>
+        <a href="{%url 'solve:today_exam' %}">오늘의 문제</a>
+    </div>
+</body>
+
+</html>

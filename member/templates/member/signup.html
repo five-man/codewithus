@@ -86,6 +86,14 @@
       </label>
     </div>
 
+    {% if messages %}
+    <div>
+      {% for message in messages %}
+      <span style="color:red">{{ message.tags }}! {{ message.message }}</span><br>
+      {% endfor %}
+    </div>
+    {% endif %}
+
     <button class="submit-btn" type="submit" onclick="location.href ='{%url 'member:login' %}';">스터디 가입하기</button>
     
     <div class="bottomText">
