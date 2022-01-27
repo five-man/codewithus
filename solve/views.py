@@ -1,16 +1,18 @@
-import datetime
-import json
 from django.utils import timezone
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from numpy import save
-import os
+import datetime, json, os
 from config.settings import BASE_DIR, MEDIA_ROOT, STATIC_ROOT
 from solve.models import Algorithm,AlgorithmImage, Comment, Solution, Tag
 from member.models import Member
 from django.contrib import messages
+from django.db.models import Count
 from django.core.paginator import Paginator
+
 # Create your views here.
+
+
 def problem_list(request):
     m = Member.objects.all()
 
@@ -27,7 +29,6 @@ def problem_list(request):
     end_page = start_page + 9
     if end_page > p.num_pages:
         end_page = p.num_pages
-
     context = {'algo_list' : page_obj,
                 'page_range' : range(start_page, end_page+1)}
 
@@ -78,13 +79,10 @@ def problem_upload(request):
         
         return render(request, 'solve/problem_upload_fail.html')
     else:
-        # 
+        #
         return render(request, 'solve/problem_upload.html')
 
     # return render(request,"solve/problem_upload.html")
-
-       
-    
 
 def today_exam(request):
     if request.method=="POST":
@@ -178,17 +176,6 @@ def update_exam(request, sol_no):
     # else:
     #     return redirect('edit_exam.html')
     
-
-
-def delete_exam(request, pk):
-    sol = Solution.objects.get(sol_no=pk)
-    sol.delete()
-    return redirect('원래 페이지')
-=======
-    
-    
-    
-    
     return render(request,"solve/today_exam.html")
 
 def solutions(request,sol_no=50):
@@ -211,18 +198,20 @@ def solutions(request,sol_no=50):
 def reply(request):
     member_no = request.session.get('member_no')
     jsonObject = json.loads(request.body)
-
+    solno = jsonObject.get('sol_no')
     reply = Comment.objects.create(
-        sol_no=Solution.objects.get(sol_no=50),
-        algo_no=Solution.objects.get(algo_no=50),
+        sol_no=Solution.objects.get(sol_no=solno),
+        # algo_no=Solution.objects.get(algo_no=50),
+        algo_no=Solution.objects.get(sol_no=solno),
         member_no=Member.objects.get(member_no=member_no),
         comment_detail=jsonObject.get('comment_detail'),
     )
     reply.save()
-
+    membername = Member.objects.get(member_no = member_no)
     context = {
-        # 'name' : reply.member_no,
-        'content' : reply.comment_detail,
+        # 'name': serializers.serialize("json", reply.member_no),
+        #'content': reply.comment_detail,
+        'pp': membername.member_name    
     }
 
     return JsonResponse(context)

@@ -27,5 +27,6 @@ class FileList(models.Model):
 
     class Meta:
         managed = False
+        app_label = 'member'
         db_table = 'file_list'
         unique_together = (('file_file', 'file_no'),)

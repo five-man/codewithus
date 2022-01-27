@@ -1,3 +1,4 @@
+   
 * {
     box-sizing: border-box;
     margin: 0;
@@ -32,6 +33,7 @@ nav a{
 }
 
 
+
 body{
     padding : 100px;
     background-color: #dcf2ed;
@@ -39,6 +41,9 @@ body{
     justify-content: center;
     align-items: center;
 }
+
+
+
 
 table {
     border-collapse: collapse;
@@ -54,14 +59,11 @@ a {
 }
 
 .board_list_wrap {
-    padding: 100px;
+    padding: 80px;
     height: 65%;
-    width: 65%;
-    position :static;
+    width: 900px;
     border-radius: 20px;
     background: white;
-
-    
 }
 
 .board_list {
@@ -72,7 +74,6 @@ a {
 }
 
 .board_list tr {
-
     border-bottom: 1px solid #ccc;
 }
 
@@ -80,9 +81,6 @@ a {
 .board_list td {
     padding: 20px;
     font-size: 14px;
-}
-
-.board_list td {
     text-align: center;
 }
 

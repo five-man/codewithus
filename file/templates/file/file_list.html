@@ -1,4 +1,4 @@
-{% load static %}
+{%load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,57 +18,72 @@
                 <a href="#">Code With US!</a>
             </h1>
         </div>
+        {% if request.session.member_name %}
         <div class="navright" style="float:right;width:33%">
             <div style="float:left;width:80%">
-                <a class=navright href="#">로그인</a>
+                <a class = navright >{{ request.session.member_name }} 님 반갑습니다.</a>
             </div>
             <div style="float:right;width:20%">
-                <a class=navright href="#">회원가입</a>
-            </div>
+                <a class = navright href="{%url 'member:logout' %}">로그아웃</a>
+            </div>    
         </div>
+        {% else %}
+        <div class="navright" style="float:right;width:33%">
+            <div style="float:left;width:80%">
+                <a class = navright href="{%url 'member:login' %}">로그인</a>
+            </div>
+            <div style="float:right;width:20%">
+                <a class = navright href="{%url 'member:signup' %}">회원가입</a>
+            </div>    
+        </div>
+        {% endif %}
     </nav>
 
     <div class="board_list_wrap">
-        <form>
-            <table class="board_list">
-                <caption>파일 목록</caption>
-
-                <thead>
-                    <tr>
-                        <strong>
-                            <p style="font-size: 30px;">파일 목록</p>
-                        </strong>
-
-                        <button class="submit-btn" type="submit" onclick="location.href='#';">글 작성하기</button>
-
-                        <select style="float: right;" name="language">
-                            <option value="none">=== 선택 ===</option>
-                            <option value="korean">1</option>
-                            <option value="english">2</option>
-                            <option value="chinese">3</option>
-                        </select>
-                    </tr>
-                    <form action="{% url 'file:file_upload' %}" method="post" enctype="multipart/form-data">
+        <div>
+            <form action="{% url 'file:file_upload'%}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="file">
+                <input type="text" name="fileTitle" placeholder="글의 제목">
+                <input type="submit" value="전송">
+            </form>
+        </div>
+        <tr>
+            <strong>
+                <p style="font-size: 30px;">파일 목록</p>
+            </strong>
+            <select style="float: right;" name="language">
+                <option value="none">=== 선택 ===</option>
+                <option value="korean">1</option>
+                <option value="english">2</option>
+                <option value="chinese">3</option>
+            </select>
+        </tr>
+        <table class="board_list">
+            <caption>파일 목록</caption>
+            <thead>
+                <th>제목</th>
+                <th>파일 이름</th>
+                <th>업로드 날짜</th>
+                <th>작성자</th>
+            </thead>
+            <tbody>
+                {% for list in filelist%}
+                <tr>
+                    <td>{{list.file_no.file_name}}</td>
+                    <td>
+                        <form action="{% url 'file:file_download'%}" method="post">
                         {% csrf_token %}
-                        <input type="file" name="file">
-                        <input type="text" name="fileTitle">
-                        <input type="submit" value="전송">
-                    </form>
-                </thead>
-                <tbody>
-                    {% for file in files %}
-                    <tr>
-                        <td class="today1">
-                            <p align="left">
-                                <a href><strong>{{file.file_name}}</strong></a>
-                            </p>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-
-            </table>
-
+                        <button type="submit" name="filename" value="{{ list.file_name }}">{{list.file_root}}
+                        </button>
+                        </form>
+                    </td>
+                    <td>{{list.file_no.file_date}}</td>
+                    <td>{{list.file_no.member_no.member_name}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
             <div style="text-align:center">
                 <div class="paging">
                 {% if files.has_previous %}
