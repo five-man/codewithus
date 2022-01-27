@@ -43,25 +43,24 @@
         <div class="comback">
             <!-- <button class="comback-btn">문제로 돌아가기</button> -->
         </div>
+        {% for i in socm %}
         <div class="solutions-group">
             <div class="solution-info">
                 <div class="user-icon-div">
-                    <img class="user-icon" src="assets/user.jpg" alt="user icon">
-                    <strong>에이블러님</strong>
+                    <img class="user-icon" src="{% static 'css/user.jpg' %}" alt="user icon">
+                    <strong>{{i.member_no__member_name}} / {{i.sol_no}}</strong>
                 </div>
                 <div class="solution-btn">
-                    <button class="like-btn" value="">좋아요 10개</button>
-                    <button class="adj-btn">수정</button>
+                    <button class="like-btn" value="">좋아요 {{i.count}}개</button>
+                    <button class="adj-btn"
+                        onclick="location.href='/solve/today_exam/update_exam{{i.sol_no}}/';">수정</button>
                     <button class="del-btn">삭제</button>
                 </div>
             </div>
             <div class="solution">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum impedit temporibus, error facere ipsa
-                    vitae rem repellendus quam possimus blanditiis sed eaque ab tempora iste minus sapiente eligendi
-                    libero nihil?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum impedit temporibus, error
-                    facere ipsa vitae rem repellendus quam possimus blanditiis sed eaque ab tempora iste minus sapiente
-                    eligendi libero nihil?</p>
+                <p>{{i.sol_detail}}</p>
             </div>
+
             <ul class="comments">
                 {% comment %} <li class="comment-item">
                     <div class="comment-head">
@@ -95,6 +94,7 @@
                 </li>
             </ul>
         </div>
+        {% endfor %}
     </div>
 </body>
 <script>
