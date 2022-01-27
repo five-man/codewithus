@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 
 # Create your views here.
 def main(request):
-
+    
     return render(request,"member/main.html")
 
 def login(request):
@@ -51,7 +51,9 @@ def signup(request):
         
         
         m = Member(
-            member_email=member_email, member_password=member_password, member_name=member_name)
+            member_email=member_email, 
+            member_password=member_password, 
+            member_name=member_name)
         m.member_joindate = timezone.now()
         m.save()
         

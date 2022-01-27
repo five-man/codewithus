@@ -1,15 +1,15 @@
 import datetime
-import os
-from django.http import HttpResponse
+import json
+from django.utils import timezone
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
-from config.settings import MEDIA_ROOT, STATIC_ROOT
+from numpy import save
+import os
+from config.settings import BASE_DIR, MEDIA_ROOT, STATIC_ROOT
+from solve.models import Algorithm,AlgorithmImage, Comment, Solution, Tag
 from member.models import Member
 from django.contrib import messages
 from django.core.paginator import Paginator
-
-
-from solve.models import Algorithm, AlgorithmImage, Solution, Tag
-
 # Create your views here.
 def problem_list(request):
     m = Member.objects.all()
@@ -40,7 +40,7 @@ def problem_upload(request):
         
     if request.method == 'POST':
         algo_title = request.POST.get('subject')
-        algo_detailaa = request.POST.get('contents')
+        algo_detail = request.POST.get('contents')
         tag = request.POST.get('algorithm_tag')
         member_no = request.session.get('member_no')
         uploadedFile= request.FILES.getlist("image")
@@ -126,40 +126,17 @@ def today_exam(request):
 # if __name__ =="__main__":
 #     problem_upload(request)
 
-
-
-
-def solutions(request):
-
-    return render(request,"solve/solutions.html")
-
-
-
-
-# from django.views.decorators.csrf import csrf_exempt
-# from django.http import JsonResponse
-# from django.forms.models import model_to_dict
-# @csrf_exempt
-# def ajaxGet(request):
-#     # QuerySet [] 상태의 c 
-#     c = Course.objects.all()
-    
-#     data = []
-#     # model_to_dict - 조회된 데이터를 딕셔너리 형태로 변경
-#     for i in c:
-#         transformedData = model_to_dict(i)
-#         data.append(transformedData)
-
-#     return JsonResponse(data, safe=False)
-
-
-# def ajaxExam(request):
-    
-#     return render(request, 'secondapp/ajax_exam.html')
-
-
 def problem_upload_complete(request):
     
+    # now = datetime.datetime.now()
+    # nowDate = now.strftime('%Y-%m-%d')
+    
+    # today_algo = Algorithm.objects.get(algo_no = 87)
+    # algo_image_object = AlgorithmImage.objects.filter(algo_no=today_algo)
+
+    
+    # return render(request, 'solve/today_exam.html', {'image':algo_image_object.image_name})
+
     return redirect("/main/")
 
 
@@ -207,3 +184,45 @@ def delete_exam(request, pk):
     sol = Solution.objects.get(sol_no=pk)
     sol.delete()
     return redirect('원래 페이지')
+=======
+    
+    
+    
+    
+    return render(request,"solve/today_exam.html")
+
+def solutions(request,sol_no=50):
+    solution = Solution.objects.get(sol_no=sol_no)
+
+    reply = Comment.objects.filter(sol_no=sol_no)
+
+    try:
+        session = request.session.get('member_no')
+        context = {
+            'solution': solution,
+            'reply': reply,
+            'session': session,
+        }
+        return render(request, 'solve/solutions.html', context)
+    except KeyError:
+        return redirect('member/main')
+
+
+def reply(request):
+    member_no = request.session.get('member_no')
+    jsonObject = json.loads(request.body)
+
+    reply = Comment.objects.create(
+        sol_no=Solution.objects.get(sol_no=50),
+        algo_no=Solution.objects.get(algo_no=50),
+        member_no=Member.objects.get(member_no=member_no),
+        comment_detail=jsonObject.get('comment_detail'),
+    )
+    reply.save()
+
+    context = {
+        # 'name' : reply.member_no,
+        'content' : reply.comment_detail,
+    }
+
+    return JsonResponse(context)

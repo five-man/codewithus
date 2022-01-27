@@ -15,35 +15,31 @@
     <body>
         <nav>
             <div class="hamburger" style="float:left;width:33%">
-                <input type="checkbox" id="menuicon" class="hamburger">
-                <label for="menuicon">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </label>
-                <div class="sidebar">
-                    <div class="menu">
-                        <h4 class="h4main">메뉴 입니다.</h4>
-                        <div class="log_all side_list">메뉴1</div>
-                        <div class="log_all side_list">메뉴2</div>
-                        <div class="log_all side_list">메뉴3</div>
-                        <div class="log_all side_list">메뉴4</div>
-                    </div>
-                </div>    
             </div>
             <div class="navcenter" style="float:center;width:33%">
                 <h1>
-                    <a href="#">Code With US!</a>
+                    <a href="{%url 'member:main' %}">Code With US!</a>
                 </h1>
             </div>
-            <div class="navright" style="float:right;width:33%">
-                <div style="float:left;width:80%">
-                    <a class = navright href="#">로그인</a>
+            {% if request.session.member_name %}
+                <div class="navright" style="float:right;width:33%">
+                    <div style="float:left;width:80%">
+                        <a class = navright >{{ request.session.member_name }} 님 반갑습니다.</a>
+                    </div>
+                    <div style="float:right;width:20%">
+                        <a class = navright href="{%url 'member:logout' %}">로그아웃</a>
+                    </div>    
                 </div>
-                <div style="float:right;width:20%">
-                    <a class = navright href="#">회원가입</a>
-                </div>    
-            </div>
+                {% else %}
+                <div class="navright" style="float:right;width:33%">
+                    <div style="float:left;width:80%">
+                        <a class = navright href="{%url 'member:login' %}">로그인</a>
+                    </div>
+                    <div style="float:right;width:20%">
+                        <a class = navright href="{%url 'member:signup' %}">회원가입</a>
+                    </div>    
+                </div>
+                {% endif %}
         </nav>
        
         <div class="board_list_wrap">
@@ -70,7 +66,7 @@
                         <tr>
                             <td class="today1">
                                 <p align="left">
-                                    <a href><strong>sort문제</strong></a>
+                                    <a href = "{%url 'solve:solutions' %}"><strong>sort문제</strong></a>
                                     <span class="badge bg-primary">sort</span>
                                 </p>
                                 
