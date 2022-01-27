@@ -30,7 +30,7 @@
 
     <nav>
         <div style="float:left;width:33%">
-            
+
         </div>
         <div class="navcenter" style="float:center;width:33%">
             <h1>
@@ -70,7 +70,7 @@
         </div>
         <div class=exam-content onkeydown="resize(this)" onkeyup="resize(this)">
             <!--입력값에 맞게 div수가 변해야됨-->
-            
+
             <!-- <div style="width:500px;height:300px;background-size: 100%100%; 
             background-image:URL(https://image.ajunews.com/content/image/2019/06/10/20190610144311678496.png);">
             </div>
@@ -80,21 +80,21 @@
             <div style="width:500px;height:300px;background-size: 100%100%;
             background-image:URL(https://cphoto.asiae.co.kr/listimglink/6/2017092015165812556_2.jpg);">
             </div> -->
-            
+
             <!-- <div style="width:500px;height:300px;background-size: 100%100%;
             background-image:URL(https://cphoto.asiae.co.kr/listimglink/6/2017092015165812556_2.jpg);">
             </div> -->
-            
+
             {% for i in image %}
-            <div >
+            <div>
                 <img style="width:500px;height:600px;background-size: 100%100%;" src="{% static i.image_name %}">
             </div>
             {%endfor%}
 
 
 
-            
-            
+
+
         </div>
         <script>
             function resize(obj) {
@@ -104,25 +104,32 @@
         </script>
 
         <h4>나의 풀이 작성하기</h4>
-        <textarea name="contents" id="editor" class="form-control" style="height:200px;"></textarea>
-        <script>
-            ClassicEditor
-                .create(document.querySelector('#editor'), {
-                    language: { ui: 'ko', content: 'ko' }
-                })
-                .catch(error => {
-                    console.error(error);
-                })
-        </script>
-        <!--글 등록되도록 연결 필요-->
-        <div style="text-align:right;">
-            <button class="submit-exam-btn" type="submit">
-                풀이 제출하기
-            </button>
-        </div>
-        <!--링크 주소값 필요-->
+        <form name="frm_pw2" method="POST">
+            {% csrf_token %}
+            <div class="form=group">
+                <label for="solu">내용</label>
+                <textarea name="contents" id="editor" class="form-control" style="height:200px;"></textarea>
+                <script>
+                    ClassicEditor
+                        .create(document.querySelector('#editor'), {
+                            language: { ui: 'ko', content: 'ko' }
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        })
+                </script>
+            </div>
+            
+            <div style="text-align:right;">
+                <button class="submit-exam-btn" type="submit">
+                    풀이 제출하기
+                </button>
+            </div>
+        </form>
+        
         <div style="text-align:center;">
-            <button class="toallanswer-btn" type="button" onclick="location.href='#';">
+            <button class="toallanswer-btn" type="button"
+                onclick="location.href='/solve/today_exam/sol_list{{i.algo_no}}/';">
                 모든 풀이 보기
             </button>
         </div>

@@ -8,11 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>solutions</title>
     <link rel="stylesheet" href="{% static 'css/solutions.css' %}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-
-    <script>
-        let commentCreate = document.querySelector('')
-    </script>
 </head>
 
 <body>
@@ -36,48 +31,36 @@
         <div class="comback">
             <!-- <button class="comback-btn">문제로 돌아가기</button> -->
         </div>
+        {% for i in socm %}
         <div class="solutions-group">
             <div class="solution-info">
                 <div class="user-icon-div">
-                    <img class="user-icon" src="assets/user.jpg" alt="user icon">
-                    <strong>에이블러님</strong>
+                    <img class="user-icon" src="{% static 'css/user.jpg' %}" alt="user icon">
+                    <strong>{{i.member_no__member_name}} / {{i.sol_no}}</strong>
                 </div>
                 <div class="solution-btn">
-                    <button class="like-btn" value="">좋아요 10개</button>
-                    <button class="adj-btn">수정</button>
+                    <button class="like-btn" value="">좋아요 {{i.count}}개</button>
+                    <button class="adj-btn"
+                        onclick="location.href='/solve/today_exam/update_exam{{i.sol_no}}/';">수정</button>
                     <button class="del-btn">삭제</button>
                 </div>
             </div>
             <div class="solution">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum impedit temporibus, error facere ipsa
-                    vitae rem repellendus quam possimus blanditiis sed eaque ab tempora iste minus sapiente eligendi
-                    libero nihil?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum impedit temporibus, error
-                    facere ipsa vitae rem repellendus quam possimus blanditiis sed eaque ab tempora iste minus sapiente
-                    eligendi libero nihil?</p>
+                <p>{{i.sol_detail}}</p>
             </div>
+
             <ul class="comments">
                 <li class="comment-item">
                     <div class="comment-head">
-                        <img class="user-icon" src="assets/user.jpg" alt="user icon">
+                        <img class="user-icon" src="{% static 'css/user.jpg' %}" alt="user icon">
                     </div>
                     <div class="comment-body">
-                        <p class="comment-text">와 진짜 깔끔하다</p>
-                        <h6>서승우</h6>
-                    </div>
-                </li>
-                <li class="comment-item">
-                    <div class="comment-head">
-                        <img class="user-icon" src="assets/user.jpg" alt="user icon">
-                    </div>
-                    <div class="comment-body">
-                        <p class="comment-text">새로 추가된 테스트 케이스는 통과 못하는 것 같습니다......새로 추가된 테스트 케이스는 통과 못하는 것 같습니다.....새로 추가된 테스트 케이스는 통과 못하는 것 같습니다.....새로 추가된 테스트 케이스는 통과 못하는 것 같습니다.....새로 추가된 테스트 케이스는 통과 못하는 것 같습니다.....새로 추가된 테스트 케이스는 통과 못하는 것 같습니다.....</p>
-                        <h6>서승우</h6>
+                        <p class="comment-text">{{i.cmt_rel_sol_no__comment_detail}}</p>
+                        <h6>{{i.cmt_rel_sol_no__member_no__member_name}}</h6>
                     </div>
                 </li>
                 <li class="commemt-line">
-                    <!-- -------------------------------------------------------------- -->
                     <form class="comment-create" method="post">
-                        {% csrf_token %}
                         <div class="comment-form">
                             <input type="text" class="comment-write" placeholder="댓글을 입력하세요"></input>
                             <input type="submit" class="register-btn" value="등록">
@@ -86,6 +69,7 @@
                 </li>
             </ul>
         </div>
+        {% endfor %}
     </div>
 </body>
 
