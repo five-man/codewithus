@@ -12,6 +12,7 @@ import os
 from config import settings
 from config.settings import MEDIA_ROOT
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -60,10 +61,25 @@ def uploadFile(request):
 
         filelist.save()
     filelist = FileList.objects.all()
-    return render(request, "file/file_list.html", {"filelist": filelist})
+    documents = File.objects.all()
 
+    now_page = request.GET.get('page', 1)
+    now_page = int(now_page)
 
-def download(request):
+    p = Paginator(documents, 5)
+    page_obj = p.get_page(now_page)
+
+    start_page = (now_page-1) // 10 * 10 + 1
+    end_page = start_page + 9
+    if end_page > p.num_pages:
+        end_page = p.num_pages
+
+    context = {"files": page_obj,
+                'page_range' : range(start_page, end_page+1), "filelist": filelist}
+
+    return render(request, "file/file_list.html", context)
+
+  def download(request):
     if request.method == 'POST':
         fn = request.POST["filename"]
         filename = FileList.objects.get(file_name = fn)

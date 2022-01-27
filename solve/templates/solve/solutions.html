@@ -53,6 +53,7 @@
                 <div class="solution-btn">
                     <button class="like-btn" value="">좋아요 {{solution.sol_like}}개</button>
                     <button class="adj-btn">수정</button>
+
                     <button class="del-btn">삭제</button>
                 </div>
             </div>
@@ -79,6 +80,7 @@
                 <li class="commemt-line">
                     <div class="comment-form">
                         <input type="text" class="comment-write" placeholder="댓글을 입력하세요">
+
                         <input type="submit" class="register-btn" value="등록">
                     </div>
                 </li>
@@ -100,6 +102,13 @@
             //'member_no' : '{{solution.member_no}}',
             'sol_no' : id_check,
             //'member_no' : '{{membername}}',
+
+    /*btnReply.addEventListener('click', e => {
+        let content = document.querySelector('.comment-write').value;
+
+        let param = {
+            //'member_no' : '{{solution.member_no}}',
+            'sol_no' : '{{sol_no}}',*/
             'comment_detail' : content,
         }
 
@@ -125,7 +134,6 @@
                         <p class="comment-text">${content}</p>
                     <h6>${receive.pp}</h6>
                     </div>`;  
-                 
                 newTr.innerHTML = str;
                 replyTable.append(newTr);
             },
@@ -137,5 +145,4 @@
 });
     
 </script>
-
 </html>
