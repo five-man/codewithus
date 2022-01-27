@@ -65,7 +65,7 @@
         <h4>문제 진행도</h4>
         <!--진행바 진행율에 맞게 수정 필요, 비동기-->
         <div class="progress-bar progress-bar-striped 
-        progress-bar-animated" style="width:70%;height:20px">70%
+        progress-bar-animated" style="width:70%; height:20px;">{{pe}}
         </div>
         
         <div class=exam-content onkeydown="resize(this)" onkeyup="resize(this)">
@@ -99,8 +99,7 @@
         </script>
 
         <h4>나의 풀이 작성하기</h4>
-
-        <form name="frm_pw2" method="POST">
+        <form name="frm_pw2" method="POST" action="{% url 'solve:today_exam'%}">
             {% csrf_token %}
             <div class="form=group">
                 <label for="solu">내용</label>
@@ -114,7 +113,7 @@
                 </button>
             </div>
         </form>
-        
+
         <div style="text-align:center;">
             <button class="toallanswer-btn" type="button"
                 onclick="location.href='/solve/today_exam/sol_list{{i.algo_no}}/';">

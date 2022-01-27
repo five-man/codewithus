@@ -17,6 +17,7 @@ urlpatterns = [
     path('problem_upload/complete', views.problem_upload_complete, name='problem_upload_complete'),    
     # path('problem_upload/fail', views.problem_upload_fail, name='problem_upload_fail'),    
     path('today_exam/', views.today_exam, name='today_exam'),    
+    path('problem_list/solutions<int:algo_no>/', views.solutions, name='solutions'),
     path('solutions/', views.solutions, name='solutions'),    
     path('reply/', views.reply, name='reply'),    
 ]

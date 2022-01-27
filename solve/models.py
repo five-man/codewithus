@@ -13,7 +13,7 @@ class Tag(models.Model):
         managed = False
         #app_label='member'
         db_table = 'tag'
-        app_label = 'member'
+        # app_label = 'member'
 
 
 class Algorithm(models.Model):
@@ -61,6 +61,7 @@ class Solution(models.Model):
         app_label = 'member'
 
 
+
 class AlgorithmImage(models.Model):
     image_no = models.AutoField(primary_key=True)
     algo_no = models.ForeignKey(Algorithm, on_delete=models.CASCADE, db_column='algo_no')
@@ -101,3 +102,4 @@ class Likes(models.Model):
         app_label='member'
         db_table = 'likes'
         unique_together = (('likes_no', 'sol_no', 'algo_no', 'member_no'),)
+        app_label = 'member'

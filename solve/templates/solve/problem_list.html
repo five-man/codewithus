@@ -40,23 +40,9 @@
         <div class="board_list_wrap">
             <form>
                 <table class="board_list">
-
-                    <caption>게시판 목록</caption>
-                
-                    <thead>
-                        <tr>
-                            <strong>
-                                <p style= "font-size: 30px;">문제목록</p>
-                            </strong>   
-                            <select style="float: right;" name="language" >
-                                <option value="none">=== 선택 ===</option>
-                                <option value="korean">좋아요순</option>
-                                <option value="english">최신순</option>
-                                <option value="chinese">많이 푼 순</option>
-                              </select>  
-                        </tr>
-                    </thead>
-
+    <div class="board_list_wrap">
+        <form>
+            <table class="board_list">
                     <tbody>
                         {% for i in algo_list %}
                         <tr>
