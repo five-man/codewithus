@@ -5,9 +5,10 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from numpy import save
 import os
-from config.settings import BASE_DIR, MEDIA_ROOT
-from solve.models import Algorithm,AlgorithmImage, Comment, Solution
+from config.settings import BASE_DIR, MEDIA_ROOT, STATIC_ROOT
+from solve.models import Algorithm,AlgorithmImage, Comment, Solution, Tag
 from member.models import Member
+from django.contrib import messages
 
 # Create your views here.
 def problem_list(request):
@@ -15,47 +16,75 @@ def problem_list(request):
     return render(request,"solve/problem_list.html")
 
 def problem_upload(request):
-    
-    #
-    #   오늘의 문제가 있다면 업로드 못하게 막는 로직
-    #
-    
+    # now = datetime.datetime.now()
+    # nowDate = now.strftime('%Y-%m-%d')  
+        
     if request.method == 'POST':
         algo_title = request.POST.get('subject')
         algo_detail = request.POST.get('contents')
+        tag = request.POST.get('algorithm_tag')
         member_no = request.session.get('member_no')
         uploadedFile= request.FILES.getlist("image")
         
-        a = Algorithm(
-            algo_title=algo_title, 
-            algo_detail=algo_detail, 
-            member_no=Member.objects.get(member_no=member_no),
-            tag_id=3,
-            algo_update = timezone.now())
-        a.save()
-
-        for uploadFile in uploadedFile:
-            # image_name = 
-            i = AlgorithmImage(
-                image_name=uploadFile.name,
-                image_root= "/media/",
-                algo_no=Algorithm.objects.get(algo_no=87))
-            i.save()
-            save_path = os.path.join(MEDIA_ROOT,i.image_name)
-            with open(save_path, 'wb') as file:
-                for chunk in uploadFile.chunks():
-                    file.write(chunk)
-
-        # 글이 써지면 오늘의 문제로 
-        return redirect('/today_exam/')
+        #
+      
+        now = datetime.datetime.now()
+        nowDate = now.strftime('%Y-%m-%d')
+        
+        try:
+            is_ok = Algorithm.objects.get(algo_update=nowDate)
+        except Algorithm.DoesNotExist as e:
+            a = Algorithm(
+                algo_title=algo_title, 
+                algo_detail=algo_detailaa, 
+                member_no=Member.objects.get(member_no=member_no),
+                tag_id=tag,
+                algo_update = nowDate
+            )
+            a.save()
+            for uploadFile in uploadedFile:
+                # image_name = 
+                i = AlgorithmImage(
+                    image_name=uploadFile.name,
+                    image_root= "static/media/",
+                    algo_no=Algorithm.objects.get(algo_update=nowDate))
+                i.save()
+                save_path = os.path.join(STATIC_ROOT,i.image_name)
+                with open(save_path, 'wb') as file:
+                    for chunk in uploadFile.chunks():
+                        file.write(chunk)
+                
+            # 글이 써지면 오늘의 문제로 
+            return render(request, 'solve/problem_upload_complete.html')
+        
+        return render(request, 'solve/problem_upload_fail.html')
     else:
         # 
         return render(request, 'solve/problem_upload.html')
 
     # return render(request,"solve/problem_upload.html")
 
-def today_exam(request):
+       
+    
 
+def today_exam(request):
+    now = datetime.datetime.now()
+    nowDate = now.strftime('%Y-%m-%d')
+    
+    today_algo = Algorithm.objects.get(algo_update = nowDate)
+    algo_image_object = AlgorithmImage.objects.filter(algo_no= today_algo)
+    # algo_image_object.
+    # print(today_algo)
+    
+    return render(request, 'solve/today_exam.html', {'image':algo_image_object})
+
+
+# if __name__ =="__main__":
+#     problem_upload(request)
+
+def problem_upload_complete(request):
+    
+    return redirect("/main/")
     # now = datetime.datetime.now()
     # nowDate = now.strftime('%Y-%m-%d')
     

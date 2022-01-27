@@ -40,6 +40,7 @@
         {% endif %}
 
     </nav>
+    {% if request.session.member_name %}
     <div class="content">
         <div class="menu-button">
             <div class="row1">
@@ -90,6 +91,43 @@
             </div>
         </div>
     </div>
+    {% else %}
+    <div class="content">
+        <div class="menu-button">
+            <div class="row1">
+                <button class="num1" onclick="location.href='{%url 'member:login' %}'">
+                    <div>
+                        <strong>Study 시작하기</strong>
+                    </div>
+                    <div class="words">
+                        <p>함께 배우면서</p>
+                        <p>같이 성장하는 스터디</p>
+                        <p>여러분의 동료가 여러분을 기다리고 있어요!</p>
+                    </div>
+                </button>
+                <button class="num2" onclick="location.href='{%url 'member:login' %}'">
+                    <strong>Study 입장하기</strong>
+                </button>
+            </div>
+            <div class="row2">
+                <button class="num3" onclick="location.href='{%url 'member:login' %}'">
+                    <strong>문제 확인하기</strong>
+                    <p>지금까지 올라온 문제를 모두 확인해볼 수 있어요!</p>
+                </button>
+                <button class="num4" onclick="location.href='{%url 'member:login' %}'">
+                    <div>
+                        <strong>문제 업로드</strong>
+                    </div>
+                </button>
+                <button class="num5" onclick="location.href='{%url 'member:login' %}'">
+                    <div>
+                        <strong>파일 업로드</strong>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </body>
 
 </html>

@@ -1,3 +1,4 @@
+from cProfile import label
 from django.db import models
 
 from member.models import Member
@@ -11,11 +12,12 @@ class Tag(models.Model):
     class Meta:
         managed = False
         db_table = 'tag'
+        app_label = 'member'
 
 
 class Algorithm(models.Model):
     algo_no = models.AutoField(primary_key=True)
-    algo_update = models.DateTimeField()
+    algo_update = models.DateField()
     algo_title = models.CharField(max_length=50)
     algo_detail = models.TextField()
     member_no = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='member_no')
@@ -64,8 +66,6 @@ class Solution(models.Model):
 #         managed = False
 #         db_table = 'likes'
 #         unique_together = (('likes_no', 'sol_no', 'algo_no', 'member_no'),)
-
-
 
 class Comment(models.Model):
     comment_no = models.AutoField(primary_key=True)
