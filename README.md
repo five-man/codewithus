@@ -16,7 +16,7 @@
 - 피그마 활용
 
 **User Flow Chart**<br>
-<img src = "img/스크린샷 2022-01-28 오전 9.21.49.png.png" style = "width: 100px; height:70px;">
+<img src = "img/figma.png.png" style = "width: 100px; height:70px;">
 
 ## 프로젝트 구성 - **`Front`**
 
