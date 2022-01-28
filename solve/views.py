@@ -15,6 +15,11 @@ import json
 
 # Create your views here.
 
+def ceil(n):
+    if n ==int(n):
+        return n
+    else:
+        return int(n)+1
 
 def problem_list(request):
     now_page = request.GET.get('page', 1)
@@ -38,6 +43,13 @@ def problem_list(request):
 
 def exam(request, algo_no):
     al = algo_no
+    now = datetime.datetime.now()
+    nowDate = now.strftime('%Y-%m-%d')
+    today_algo = Algorithm.objects.get(algo_no = algo_no)
+    total_member = Member.objects.count()
+    today_member = Solution.objects.filter(algo_no = today_algo).count()
+    percent= ceil(today_member/total_member*100)
+    
     if request.method=="POST":
         sol_detail = request.POST.get('contents')
         member_no = request.session.get('member_no')
@@ -52,22 +64,76 @@ def exam(request, algo_no):
         s.save()
         return redirect('solutions'+str(al)+'/')
     else:
-        return render(request,"solve/exam.html", {'al':al})
+        algo_image_object = AlgorithmImage.objects.filter(algo_no= today_algo)
+        pe=str(percent) +"%"
+        data = {
+                'percent': percent,
+                'image': algo_image_object,
+                'pe':pe,
+                'algo_no': algo_no
+                }
+        return render(request,"solve/exam.html", data)
 
 
 
-def solutions(request, al, algo_no):
-    socm = Solution.objects.prefetch_related('cmt_rel_sol_no')
-    socm = socm.prefetch_related('likes_rel_sol_no')
-    socm = socm.filter(algo_no=al)
-    socm = socm.values('sol_no', 'sol_detail', 'member_no__member_name',
-                         'cmt_rel_sol_no__comment_detail','cmt_rel_sol_no__member_no__member_name', 
-                         'likes_rel_sol_no__likes_no').annotate(count=Count('likes_rel_sol_no__likes_no'))
+def solutions(request, sol_no=2):
+    solution = Solution.objects.get(sol_no=sol_no)
+    reply = Comment.objects.filter(sol_no=sol_no)
 
-    return render(
-        request, 'solve/solutions.html',
-        {'socm':socm,}
-    )
+
+    try:
+        session = request.session.get('member_no')
+        context = {
+            'solution': solution,
+            'reply': reply,
+            'session': session,
+        }
+        return render(request, 'solve/solutions.html', context)
+    except KeyError:
+        return redirect('member/main')
+
+    # if request.method == 'POST':
+    #     print('its post')
+    #     try:
+    #         is_ok = Solution.objects.get(member_no = request.session.get('member_no'))
+    #         print('************************************************')
+    #     except Solution.DoesNotExist as e: 
+    #         sol_detail = request.POST.get('contents')
+    #         member_no = request.session.get('member_no')
+    #         # membername = Member.objects.get(member_no = member_no)
+    #         algo_no = Algorithm.objects.get(algo_no = algo_no)
+
+    #         s = Solution(
+    #             algo_no = algo_no,
+    #             sol_detail = sol_detail,
+    #             sol_like = 0,
+    #             member_no=Member.objects.get(member_no=member_no)
+    #         )
+            
+            
+    #         # today_sols = Solution.objects.filter(algo_update=nowDate)
+    #         s.save()
+            
+    #         # 문제 제출 확인
+    #         return render(request, 'solve/solution_insert.html')
+    #     return render(request, 'solve/already_sol.html')
+    # else:
+        
+    #     solution = Solution.objects.filter(algo_no__in=algo_no)
+    #     reply = Comment.objects.get(Solution=solution)
+
+
+    #     try:
+    #         session = request.session.get('member_no')
+    #         context = {
+    #             'solution': solution,
+    #             'reply': reply,
+    #             'session': session,
+    #         }
+    #         return render(request, 'solve/solutions.html', context)
+    #     except KeyError:
+    #         return redirect('member/main')    
+        
 #@login_required(login_url='member:login')
 def update_exam(request, sol_no, algo_no):
     sol = Solution.objects.get(sol_no=sol_no)
@@ -145,11 +211,6 @@ def problem_upload(request):
     # return render(request,"solve/problem_upload.html")
 
 
-def ceil(n):
-    if n ==int(n):
-        return n
-    else:
-        return int(n)+1
 
 def today_exam(request):
     
@@ -239,22 +300,26 @@ def update_exam(request, sol_no):
     
     return render(request,"solve/today_exam.html")
 
-def solutions(request,sol_no=50):
-    solution = Solution.objects.get(sol_no=sol_no)
+# def solutions(request,sol_no=50):
+#     solution = Solution.objects.get(sol_no=sol_no)
 
-    reply = Comment.objects.filter(sol_no=sol_no)
+#     reply = Comment.objects.filter(sol_no=sol_no)
 
 
-    try:
-        session = request.session.get('member_no')
-        context = {
-            'solution': solution,
-            'reply': reply,
-            'session': session,
-        }
-        return render(request, 'solve/solutions.html', context)
-    except KeyError:
-        return redirect('member/main')
+#     try:
+#         session = request.session.get('member_no')
+#         context = {
+#             'solution': solution,
+#             'reply': reply,
+#             'session': session,
+#         }
+#         return render(request, 'solve/solutions.html', context)
+#     except KeyError:
+#         return redirect('member/main')
+
+
+
+    
 
 
 def reply(request):
@@ -263,7 +328,6 @@ def reply(request):
     solno = jsonObject.get('sol_no')
     reply = Comment.objects.create(
         sol_no=Solution.objects.get(sol_no=solno),
-        # algo_no=Solution.objects.get(algo_no=50),
         algo_no=Solution.objects.get(sol_no=solno),
         member_no=Member.objects.get(member_no=member_no),
         comment_detail=jsonObject.get('comment_detail'),
@@ -272,7 +336,7 @@ def reply(request):
     membername = Member.objects.get(member_no = member_no)
     context = {
         # 'name': serializers.serialize("json", reply.member_no),
-        #'content': reply.comment_detail,
+        'content': reply.comment_detail,
         'pp': membername.member_name    
     }
 
