@@ -42,9 +42,6 @@ body{
     align-items: center;
 }
 
-
-
-
 table {
     border-collapse: collapse;
 }
@@ -56,6 +53,34 @@ caption {
 a {
     text-decoration: none;
     color: inherit;
+}
+strong p{
+    text-align: center;
+}
+
+.label-image{
+    width: 40px;
+    height: 40px;
+}
+
+#input-file{
+    display: none;
+}
+.download-form{
+    display: flex;
+    justify-content: right;
+}
+.upload-btn{
+    border-radius: 8px;
+    border: 1px solid #20484f;
+    background-color: #20484f;
+    color: white;
+}
+
+.down-btn{
+    text-align: center;
+    text-decoration: none;
+    border: none;
 }
 
 .board_list_wrap {
@@ -132,3 +157,4 @@ a {
     text-decoration: none;
     color: white;
   }
+

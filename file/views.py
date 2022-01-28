@@ -4,6 +4,8 @@ from django.forms import FilePathField
 from django.shortcuts import render
 from django.http import HttpResponse, response
 from django.core.files.storage import FileSystemStorage
+from pandas import isnull, notnull
+from pytest import skip
 from sqlalchemy import null
 from .models import File, FileList
 from django.utils import timezone
@@ -22,20 +24,20 @@ from django.core.paginator import Paginator
 def uploadFile(request):
     if request.method == "POST":
         uploadedFile = request.FILES.get("file")
-        fileTitle = request.POST["fileTitle"]
+        listTitle = request.POST["fileTitle"]
         now_member = request.session['member_no']
         must = Member.objects.get(member_no = now_member)
         name = uploadedFile.name
         file_root = os.path.join(MEDIA_ROOT)
         
-        try:
-            new_name = FileList.objects.get(file_name = name)
-            new_name = str("new") + str(new_name.file_name)
-        except FileList.DoesNotExist:
-            new_name = name
+        if (File.DoesNotExist):
+            listTitle = str('new_') + listTitle
+        else:
+            listTitle = listTitle
+            
 
         file = File(
-            file_name = fileTitle,
+            file_name = listTitle,
             file_date = timezone.now(),
             file_volume = uploadedFile.size,
             file_root = file_root,
@@ -43,23 +45,23 @@ def uploadFile(request):
         )
         file.save()
 
-        fileno = File.objects.latest('file_no')
-        fileroot = FileList.objects.latest('file_root')
+        file_fileno = File.objects.get(file_name = listTitle)
+        fileroot = file_fileno.file_root
         filelist = FileList(
-            file_name = new_name,
-            file_no = fileno,
-            file_root = fileroot.file_no.file_root
+            file_no = file_fileno,
+            file_root = fileroot,
+            file_name = name
         )
 
         try:
             with open(file_root+"/"+name, 'wb') as piz: # 파일 저장
                 for chunk in uploadedFile.chunks():
                     piz.write(chunk)
+            filelist.save()
         except FileNotFoundError:
             file.delete()
             messages.info(request, '정보를 나타냅니다.')
 
-        filelist.save()
     filelist = FileList.objects.all()
     # documents = File.objects.all()
 
@@ -81,10 +83,10 @@ def uploadFile(request):
 
 def download(request):
     if request.method == 'POST':
-        fn = request.POST["filename"]
-        filename = FileList.objects.get(file_name = fn)
-        filepath = str(settings.BASE_DIR) + ('/media/%s' % filename.file_name)
-        with open(filepath, 'rb') as f:
+        filename = request.POST["filename"]
+        # filename = FileList.objects.get(file_name = fn)
+        down_filepath = str(settings.BASE_DIR) + ('/media/%s' % filename)
+        with open(down_filepath, 'rb') as f:
             response = HttpResponse(f, content_type='application/octet-stream')
-            response['Content-Disposition'] = 'attachment; filename=%s' % fn
+            response['Content-Disposition'] = 'attachment; filename=%s' % filename
     return response
