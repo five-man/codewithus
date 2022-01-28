@@ -109,8 +109,8 @@
         </div>
         <!--링크 주소값 필요-->    
         <div style="text-align:center;">
-            <a href="{% url 'solve:solutions' algo.algo_no %}">로긴해라</a>
-                {% comment %} <button class="toallanswer-btn" type="button" onclick="location.href='/solutions{{algo.algo_no}}';"> {% endcomment %}
+            {% comment %} <a href="{% url 'solve:solutions' algo.algo_no %}">로긴해라</a> {% endcomment %}
+                <button class="toallanswer-btn" type="button" onclick="location.href='/solve/solutions71/'">
                 모든 풀이 보기
             </button>
         </div>

@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from django.db.models import Count
 from django.contrib import messages
 from django.urls import reverse
+import json
 
 def problem_list(request):
     m = Member.objects.all()
@@ -33,36 +34,32 @@ def problem_list(request):
 
 
 def exam(request, algo_no):
+    al = algo_no
     if request.method=="POST":
         sol_detail = request.POST.get('contents')
         member_no = request.session.get('member_no')
-        #algo_no = Algorithm.objects.get(algo_no=algo_no)
-
+        algo_no = Algorithm.objects.get(algo_no=algo_no)
 
         s = Solution(
             sol_detail = sol_detail,
-            algo_no = Algorithm.objects.get(algo_no=algo_no),
+            algo_no = algo_no,
             sol_like = 0,
             member_no=Member.objects.get(member_no=member_no)
         )
-        request.session['algo_no'] = s.algo_no
-        algo_no = s.algo_no
         s.save()
-        return redirect('solve:solutions', algo_no)
+        return redirect('solutions'+str(al)+'/')
     else:
-        return render(request,"solve/exam.html")
-    # algo = Algorithm.objects.get(algo_no=algo_no)
-    # return render(request, "solve/exam.html", {'algo':algo})
+        return render(request,"solve/exam.html", {'al':al})
 
 
-def solutions(request, algo_no):
-    # algo_no = request.session.get(algo_no='algo_no')
+def solutions(request, al, algo_no):
     socm = Solution.objects.prefetch_related('cmt_rel_sol_no')
     socm = socm.prefetch_related('likes_rel_sol_no')
-    socm = socm.filter(algo_no=algo_no)
+    socm = socm.filter(algo_no=al)
     socm = socm.values('sol_no', 'sol_detail', 'member_no__member_name',
                          'cmt_rel_sol_no__comment_detail','cmt_rel_sol_no__member_no__member_name', 
                          'likes_rel_sol_no__likes_no').annotate(count=Count('likes_rel_sol_no__likes_no'))
+
     return render(
         request, 'solve/solutions.html',
         {'socm':socm,}
@@ -136,7 +133,9 @@ def today_exam(request):
             member_no=Member.objects.get(member_no=member_no)
         )
         s.save()
-        return redirect('solve:solutions', s.algo_no)
+        sol = Solution.objects.filter(algo_no=algo_no).values()
+        # algo_no = Solution.objects.get(algo_no)
+        return render(request, 'solve/today_exam.html', {'sol':sol})
     else:
         return render(request,"solve/today_exam.html")
 

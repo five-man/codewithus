@@ -57,13 +57,11 @@
     </div>
   </nav>
     <main class="content">
-        {% comment %} {% for a in al %} {% endcomment %}
         <div class="today-title">
-            {% comment %} {{a.algo_title}}{{a.algo_detail}}< {% endcomment %}
-            <h1>문제</h1> {{al}}
+            <h1>문제{{algo.algo_title}}</h1> 
         </div>
         <h4>문제 진행도 </h4>
-        <!--진행바 진행율에 맞게 수정 필요, 비동기-->s
+        <!--진행바 진행율에 맞게 수정 필요, 비동기-->
         <div class="progress-bar progress-bar-striped 
         progress-bar-animated" style="width:70%;height:20px">70%
         </div>
@@ -105,21 +103,16 @@
         </div>
         <!--글 등록되도록 연결 필요-->    
         <div style="text-align:right;">
-            <button class="submit-exam-btn" type="submit" onclick="location.href='solve/solutions{{al}}/'">
-                
+            <button class="submit-exam-btn" type="submit" onclick="location.href='solutions'{{sol.algo_no}}'/';">
                 풀이 제출하기
             </button>
         </div>
         <!--링크 주소값 필요-->    
         <div style="text-align:center;">
-            <button class="toallanswer-btn" type="button" onclick="location.href='solve/solutions{{al}}/'">
-                {% comment %} <button class="toallanswer-btn" type="button"  onclick="location.href='/solve/solutions/'"> {% endcomment %}
-                    {% comment %} <a href="{% url 'solve:solutions' algo.algo_no %}">로긴해라</a> {% endcomment %}
-                    {% comment %} "location.href='/board/detail/{{ board.id }}/'" {% endcomment %}
+            <button class="toallanswer-btn" type="button" onclick="location.href='{% url 'solve:solutions' <sol.algo_no> %}';">
                 모든 풀이 보기
             </button>
         </div>
-        {% comment %} {% endfor %} {% endcomment %}
     </main>
 </body>
 

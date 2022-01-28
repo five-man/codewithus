@@ -16,7 +16,7 @@ class Tag(models.Model):
 
 class Algorithm(models.Model):
     algo_no = models.AutoField(primary_key=True)
-    #algo_update = models.DateTimeField()
+    algo_update = models.DateTimeField()
     algo_title = models.CharField(max_length=50)
     algo_detail = models.TextField()
     member_no = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='member_no', related_name='algo_mem_no')
@@ -27,12 +27,6 @@ class Algorithm(models.Model):
         app_label='member'
         db_table = 'algorithm'
     
-    def __str__(self):
-        return int(self.member_no)
-
-
-
-
 
 class Solution(models.Model):
     sol_no = models.AutoField(primary_key=True)
@@ -49,8 +43,6 @@ class Solution(models.Model):
         unique_together = (('sol_no', 'algo_no'),)
 
     
-
-
 class AlgorithmImage(models.Model):
     image_no = models.AutoField(primary_key=True)
     algo_no = models.ForeignKey(Algorithm, on_delete=models.CASCADE, db_column='algo_no')

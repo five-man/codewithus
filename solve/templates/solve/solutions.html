@@ -41,7 +41,7 @@
                 <div class="solution-btn">
                         <button class="like-btn" value="">좋아요 {{i.count}}개</button> 
                     {% comment %} <button class="adj-btn" onclick="location.href='/solve/today_exam/update_exam{{i.algo_no}}{{i.sol_no}}/';">수정</button> {% endcomment %}
-                    {% comment %} <button class="adj-btn" onclick="location.href={% urls 'sol_list:update_exam' sol_no=i.sol_no %};">수정</button> {% endcomment %}
+                    <button class="adj-btn" onclick="location.href={% urls 'solve:update_exam' sol_no=i.sol_no %};">수정</button>
                     <button class="del-btn">삭제</button>
                 </div>
             </div>
