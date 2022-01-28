@@ -1,3 +1,4 @@
+from cProfile import label
 from django.db import models
 
 from member.models import Member
@@ -12,11 +13,12 @@ class Tag(models.Model):
         managed = False
         #app_label='member'
         db_table = 'tag'
+        # app_label = 'member'
 
 
 class Algorithm(models.Model):
     algo_no = models.AutoField(primary_key=True)
-    algo_update = models.DateTimeField()
+    algo_update = models.DateField()
     algo_title = models.CharField(max_length=50)
     algo_detail = models.TextField()
     member_no = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='member_no', related_name='algo_mem_no')
@@ -26,7 +28,21 @@ class Algorithm(models.Model):
         managed = False
         app_label='member'
         db_table = 'algorithm'
-    
+
+
+class AlgorithmImage(models.Model):
+    image_no = models.AutoField(primary_key=True)
+    algo_no = models.ForeignKey(Algorithm, on_delete=models.CASCADE, db_column='algo_no')
+    image_root = models.CharField(max_length=1000)
+    image_name = models.CharField(max_length=1000)
+
+    class Meta:
+        managed = False
+        db_table = 'algorithm_image'
+        unique_together = (('image_no', 'algo_no'),)
+        app_label = 'member'
+
+
 
 class Solution(models.Model):
     sol_no = models.AutoField(primary_key=True)
@@ -41,8 +57,9 @@ class Solution(models.Model):
         app_label='member'
         db_table = 'solution'
         unique_together = (('sol_no', 'algo_no'),)
+        app_label = 'member'
 
-    
+
 class AlgorithmImage(models.Model):
     image_no = models.AutoField(primary_key=True)
     algo_no = models.ForeignKey(Algorithm, on_delete=models.CASCADE, db_column='algo_no')
@@ -54,7 +71,6 @@ class AlgorithmImage(models.Model):
         app_label='member'
         db_table = 'algorithm_image'
         unique_together = (('image_no', 'algo_no'),)
-
 
 class Comment(models.Model):
     comment_no = models.AutoField(primary_key=True)
@@ -68,6 +84,7 @@ class Comment(models.Model):
         app_label='member'
         db_table = 'comment'
         unique_together = (('comment_no', 'sol_no', 'algo_no'),)
+        app_label = 'member'
 
 
 
@@ -83,3 +100,4 @@ class Likes(models.Model):
         app_label='member'
         db_table = 'likes'
         unique_together = (('likes_no', 'sol_no', 'algo_no', 'member_no'),)
+        app_label = 'member'

@@ -183,7 +183,7 @@ input[id="menuicon"]:checked + label + div {
 }
 
 .exam-content {
-    width: 640px;
+    width: 999px;
     min-height: 400px;
     flex-wrap: wrap;
     display: flex;
