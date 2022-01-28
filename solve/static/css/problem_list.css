@@ -6,7 +6,7 @@
 }
 
 
-nav {
+.nav {
     position: fixed;
     top: 0;
     display: flex;
@@ -17,7 +17,7 @@ nav {
     background-color: #20484f;
 }
 
-nav a{
+.nav a{
     text-decoration: none;
     color: white;
 }
@@ -31,6 +31,17 @@ nav a{
     min-width: 67.5px;
     display: flex;
     justify-content: right;    
+}
+
+.nav .menu{
+    position: fixed;
+    font-size: 30px;
+    color: white;
+}
+
+.nav a{
+    text-decoration: none;
+    color: white;
 }
 
 input[type="checkbox"] {

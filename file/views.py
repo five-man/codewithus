@@ -44,11 +44,11 @@ def uploadFile(request):
         file.save()
 
         fileno = File.objects.latest('file_no')
-        fileroot = File.objects.latest('file_root')
+        fileroot = FileList.objects.latest('file_root')
         filelist = FileList(
             file_name = new_name,
             file_no = fileno,
-            file_root = fileroot.file_root
+            file_root = fileroot.file_no.file_root
         )
 
         try:
@@ -83,7 +83,7 @@ def download(request):
     if request.method == 'POST':
         fn = request.POST["filename"]
         filename = FileList.objects.get(file_name = fn)
-        filepath = str(settings.BASE_DIR) + ('\\media\\%s' % filename.file_name)
+        filepath = str(settings.BASE_DIR) + ('/media/%s' % filename.file_name)
         with open(filepath, 'rb') as f:
             response = HttpResponse(f, content_type='application/octet-stream')
             response['Content-Disposition'] = 'attachment; filename=%s' % fn

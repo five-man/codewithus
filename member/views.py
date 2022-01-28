@@ -32,7 +32,7 @@ def login(request):
 def signup(request):
     if request.method == 'POST':
         member_email = request.POST.get('member_email')
-        member_password = request.POST.get('member_password')
+        member_password = request.POST.get('userPW')
         member_name = request.POST.get('member_name')
         
         if Member.objects.filter(member_email = member_email):
