@@ -28,7 +28,6 @@ class Algorithm(models.Model):
         managed = False
         app_label='member'
         db_table = 'algorithm'
-        app_label = 'member'
 
 
 class AlgorithmImage(models.Model):
@@ -59,7 +58,6 @@ class Solution(models.Model):
         db_table = 'solution'
         unique_together = (('sol_no', 'algo_no'),)
         app_label = 'member'
-
 
 
 class AlgorithmImage(models.Model):

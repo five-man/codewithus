@@ -11,6 +11,7 @@ from django.contrib import messages
 from django.db.models import Count
 from django.core.paginator import Paginator
 from django.urls import reverse
+import json
 
 # Create your views here.
 
@@ -36,26 +37,63 @@ def problem_list(request):
 
 
 def exam(request, algo_no):
+    al = algo_no
     if request.method=="POST":
         sol_detail = request.POST.get('contents')
         member_no = request.session.get('member_no')
-        #algo_no = Algorithm.objects.get(algo_no=algo_no)
-
+        algo_no = Algorithm.objects.get(algo_no=algo_no)
 
         s = Solution(
             sol_detail = sol_detail,
-            algo_no = Algorithm.objects.get(algo_no=algo_no),
+            algo_no = algo_no,
             sol_like = 0,
             member_no=Member.objects.get(member_no=member_no)
         )
-        request.session['algo_no'] = s.algo_no
-        algo_no = s.algo_no
         s.save()
-        return redirect('solve:solutions', algo_no)
+        return redirect('solutions'+str(al)+'/')
     else:
-        return render(request,"solve/exam.html")
-    # algo = Algorithm.objects.get(algo_no=algo_no)
-    # return render(request, "solve/exam.html", {'algo':algo})
+        return render(request,"solve/exam.html", {'al':al})
+
+
+
+def solutions(request, al, algo_no):
+    socm = Solution.objects.prefetch_related('cmt_rel_sol_no')
+    socm = socm.prefetch_related('likes_rel_sol_no')
+    socm = socm.filter(algo_no=al)
+    socm = socm.values('sol_no', 'sol_detail', 'member_no__member_name',
+                         'cmt_rel_sol_no__comment_detail','cmt_rel_sol_no__member_no__member_name', 
+                         'likes_rel_sol_no__likes_no').annotate(count=Count('likes_rel_sol_no__likes_no'))
+
+    return render(
+        request, 'solve/solutions.html',
+        {'socm':socm,}
+    )
+#@login_required(login_url='member:login')
+def update_exam(request, sol_no, algo_no):
+    sol = Solution.objects.get(sol_no=sol_no)
+    #algo_no = sol.values('algo_no')
+    if request.method == 'POST':
+        sol.sol_detail = request.POST.get('contents')
+        sol.save()
+        return redirect('/solve/problem_list/sol_list'+str(algo_no)+'/')
+    else:
+        sol = Solution()
+        return render(request, 'solve/update_exam.html', {'sol':sol})
+
+    # member_no = request.session.get('member_no')
+    # if member_no != pk:
+    #     messages.error(request, '수정 권한이 없습니다')
+    #     return redirect('원래 페이지로 가기')
+
+    # else:
+    #     return redirect('edit_exam.html')
+    
+
+
+def delete_exam(request, pk):
+    sol = Solution.objects.get(sol_no=pk)
+    sol.delete()
+    return redirect('원래 페이지')
 
 def problem_upload(request):
     # now = datetime.datetime.now()
