@@ -16,7 +16,8 @@
 - 피그마 활용
 
 **User Flow Chart**<br>
-<img src = "img/figma.png.png" style = "width: 100px; height:70px;">
+<img width="1426" alt="figma" src="https://user-images.githubusercontent.com/63540952/151492372-e25d346e-c01e-4b8c-ab14-4d9a644e29f4.png">
+
 
 ## 프로젝트 구성 - **`Front`**
 
