@@ -19,6 +19,10 @@
 <img width="1426" alt="figma" src="https://user-images.githubusercontent.com/63540952/151492372-e25d346e-c01e-4b8c-ab14-4d9a644e29f4.png">
 
 
+- ERDCloud 활용
+**ERD 구성**<br>
+<img width="1218" alt="erd" src="https://user-images.githubusercontent.com/63540952/151492765-6ea74573-1167-4524-86d6-b975552d7c2c.png">
+
 ## 프로젝트 구성 - **`Front`**
 
 
