@@ -40,25 +40,21 @@
     </nav>
 
     <div class="board_list_wrap">
-        <div>
-            <form location.href="{% url 'file:file_upload'%}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="file" name="file">
-                <input type="text" name="fileTitle" placeholder="글의 제목">
-                <input type="submit" value="전송">
-            </form>
-        </div>
         <tr>
             <strong>
                 <p style="font-size: 30px;">파일 목록</p>
             </strong>
-            <select style="float: right;" name="language">
-                <option value="none">=== 선택 ===</option>
-                <option value="korean">1</option>
-                <option value="english">2</option>
-                <option value="chinese">3</option>
-            </select>
-        </tr>
+            <div>
+                <form location.href="{% url 'file:file_upload'%}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="filename">
+                        업로드
+                        <input type="file" name="file" id='filename'>
+                    </label>
+                    <input type="text" name="fileTitle" placeholder="글의 제목">
+                    <input type="submit" value="전송">
+                </form>
+            </div>
         <table class="board_list">
             <caption>파일 목록</caption>
             <thead>
