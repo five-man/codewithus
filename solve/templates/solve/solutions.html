@@ -41,9 +41,9 @@
                 {% endif %}
     </nav>
     <div class="container">
+       
         <div class="comback">
         </div>
-        {%for solution in solutions %}
         <div class="solutions-group">
             <div class="solution-info">
                 <div class="user-icon-div">
@@ -57,11 +57,32 @@
                 </div>
             </div>
             <div class="solution">
-                <pre class="prettyprint">{{solution.sol_detail}}</pre>
+                <pre class="prettyprint">def solution(n, lost, reserve):
+                    students = [1] * n
+                    
+                    for plus in reserve:
+                        students[plus-1] += 1
+                    
+                    for i in lost:
+                        students[i-1] -= 1
+                    
+                    reserve.sort()
+                    
+                    for serve in reserve:
+                        if students[serve-1] == 2:
+                            if serve >= 2 and students[serve-2] == 0:
+                                students[serve-1] = 1
+                                students[serve-2] = 1
+                            elif serve <  n and students[serve] == 0:
+                                students[serve-1] = 1
+                                students[serve] = 1
+                    
+                    answer = n - students.count(0)
+                        
+                    return answer</pre>
             </div>
             <ul class="comments">
-                {% for item in reply %}
-                {% if item.sol_no.sol_no == solution.sol_no %}
+                {% for item in reply%}
                 <li class="comment-item">
                     <div class="comment-head" id="{{item.sol_no.sol_no}}">
                         <img class="user-icon" src="{% static 'assets/user.jpg'%}" alt="user icon">
@@ -72,20 +93,18 @@
                         <h6>{{item.member_no.member_name}}</h6>
                     </div>  
                 </li>
-                {% endif %}
                 {% endfor %}
             </ul>
             <ul>
                 <li class="commemt-line">
                     <div class="comment-form">
-                        <input type="text" class="comment-write" placeholder="댓글을 입력하세요">
+                        <input type="text"  class="comment-write" placeholder="댓글을 입력하세요">
 
                         <input type="submit" class="register-btn" value="등록">
                     </div>
                 </li>
             </ul>
         </div>
-        {% endfor %}
     </div>
 </body>
 <script>
@@ -94,23 +113,15 @@
 
 [...document.querySelectorAll('.register-btn')].forEach(function(item) {
     item.addEventListener('click', e => {
-        let id_check = $(".comment-head").attr("id");
         let content = document.querySelector('.comment-write').value;
+        let id_check = $('.comment-head').attr('id');
+        console.log(id_check);
+        console.log(content);
         document.querySelector('.comment-write').value = '';
         let param = {
-            //'member_no' : '{{solution.member_no}}',
-            'sol_no' : id_check,
-            //'member_no' : '{{membername}}',
-
-    /*btnReply.addEventListener('click', e => {
-        let content = document.querySelector('.comment-write').value;
-
-        let param = {
-            //'member_no' : '{{solution.member_no}}',
-            'sol_no' : '{{sol_no}}',*/
-            'comment_detail' : content,
+            "sol_no" : id_check,
+            "comment_detail" : content,
         }
-
         $.ajax({
             url : '{% url 'solve:reply' %}',
             type : 'POST',

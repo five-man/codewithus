@@ -8,8 +8,7 @@ from django.template.loader import render_to_string
 
 # Create your views here.
 def main(request):
-    
-    return render(request,"member/main.html")
+    return render(request, 'member/main.html')
 
 def login(request):
     if request.method == 'POST':

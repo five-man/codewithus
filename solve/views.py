@@ -170,9 +170,6 @@ def today_exam(request):
 
 
 def problem_upload_complete(request):
-    
-
-    
     # return render(request, 'solve/today_exam.html', {'image':algo_image_object.image_name})
 
     return redirect("/main/")
@@ -225,7 +222,6 @@ def reply(request):
     solno = jsonObject.get('sol_no')
     reply = Comment.objects.create(
         sol_no=Solution.objects.get(sol_no=solno),
-        # algo_no=Solution.objects.get(algo_no=50),
         algo_no=Solution.objects.get(sol_no=solno),
         member_no=Member.objects.get(member_no=member_no),
         comment_detail=jsonObject.get('comment_detail'),
@@ -234,7 +230,7 @@ def reply(request):
     membername = Member.objects.get(member_no = member_no)
     context = {
         # 'name': serializers.serialize("json", reply.member_no),
-        #'content': reply.comment_detail,
+        'content': reply.comment_detail,
         'pp': membername.member_name    
     }
 
