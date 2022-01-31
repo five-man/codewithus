@@ -4,6 +4,8 @@ from django.shortcuts import redirect, render
 from matplotlib.style import context
 from numpy import save
 import datetime, json, os
+from django.db.models import Q
+
 from config.settings import BASE_DIR, MEDIA_ROOT, STATIC_ROOT
 from solve.models import Algorithm, AlgorithmImage, Comment, Solution, Tag, Likes
 from member.models import Member
@@ -76,63 +78,53 @@ def exam(request, algo_no):
 
 
 
-def solutions(request, sol_no=2):
-    solution = Solution.objects.get(sol_no=sol_no)
-    reply = Comment.objects.filter(sol_no=sol_no)
+def solutions(request, algo_no):
+    if request.method == 'POST':
+        try:
+            is_ok = Solution.objects.get(member_no = request.session.get('member_no'))
+        except Solution.DoesNotExist as e: 
+            sol_detail = request.POST.get('contents')
+            member_no = request.session.get('member_no')
+            # membername = Member.objects.get(member_no = member_no)
+            algo_no = Algorithm.objects.get(algo_no = algo_no)
+
+            s = Solution(
+                algo_no = algo_no,
+                sol_detail = sol_detail,
+                sol_like = 0,
+                member_no=Member.objects.get(member_no=member_no)
+            )
+            
+            
+            # today_sols = Solution.objects.filter(algo_update=nowDate)
+            s.save()
+            
+            # 문제 제출 확인
+            return render(request, 'solve/solution_insert.html')
+        return render(request, 'solve/already_sol.html')
 
 
+def today_solutions(request):
+    now = datetime.datetime.now()
+    nowDate = now.strftime('%Y-%m-%d')  
+    
+    today_a = Algorithm.objects.get(algo_update = nowDate)
+    
+    
     try:
-        session = request.session.get('member_no')
+        sols = Solution.objects.filter(algo_no = today_a)
+        # reply = Comment.objects.filter(algo_no = today_a)
         context = {
-            'solution': solution,
-            'reply': reply,
-            'session': session,
+            'sols':sols,
+            # 'reply':reply
         }
-        return render(request, 'solve/solutions.html', context)
-    except KeyError:
-        return redirect('member/main')
+    except Solution.DoesNotExist as e: 
+        # 문제 풀이 없음
+        return redirect('solve/no_solution.html')
+    else:
+        return render(request,"solve/today_sol.html", context)
 
-    # if request.method == 'POST':
-    #     print('its post')
-    #     try:
-    #         is_ok = Solution.objects.get(member_no = request.session.get('member_no'))
-    #         print('************************************************')
-    #     except Solution.DoesNotExist as e: 
-    #         sol_detail = request.POST.get('contents')
-    #         member_no = request.session.get('member_no')
-    #         # membername = Member.objects.get(member_no = member_no)
-    #         algo_no = Algorithm.objects.get(algo_no = algo_no)
-
-    #         s = Solution(
-    #             algo_no = algo_no,
-    #             sol_detail = sol_detail,
-    #             sol_like = 0,
-    #             member_no=Member.objects.get(member_no=member_no)
-    #         )
             
-            
-    #         # today_sols = Solution.objects.filter(algo_update=nowDate)
-    #         s.save()
-            
-    #         # 문제 제출 확인
-    #         return render(request, 'solve/solution_insert.html')
-    #     return render(request, 'solve/already_sol.html')
-    # else:
-        
-    #     solution = Solution.objects.filter(algo_no__in=algo_no)
-    #     reply = Comment.objects.get(Solution=solution)
-
-
-    #     try:
-    #         session = request.session.get('member_no')
-    #         context = {
-    #             'solution': solution,
-    #             'reply': reply,
-    #             'session': session,
-    #         }
-    #         return render(request, 'solve/solutions.html', context)
-    #     except KeyError:
-    #         return redirect('member/main')    
         
 #@login_required(login_url='member:login')
 def update_exam(request, sol_no, algo_no):
@@ -213,13 +205,18 @@ def problem_upload(request):
 
 
 def today_exam(request):
-    
+    now = datetime.datetime.now()
+    nowDate = now.strftime('%Y-%m-%d')
     if request.method=="POST": # 풀이 작성시
         try:
-           is_ok = Solution.objects.get(member_no = request.session.get('member_no'))
+            # now = datetime.datetime.now()
+            # nowDate = now.strftime('%Y-%m-%d')
+            today_a = Algorithm.objects.get(algo_update = nowDate)
+            
+            is_ok = Solution.objects.get(Q(algo_no=today_a) & Q(member_no = request.session.get('member_no')))
         except Solution.DoesNotExist as e: 
-            now = datetime.datetime.now()
-            nowDate = now.strftime('%Y-%m-%d')
+            # now = datetime.datetime.now()
+            # nowDate = now.strftime('%Y-%m-%d')
             
             sol_detail = request.POST.get('contents')
             member_no = request.session.get('member_no')
@@ -241,8 +238,8 @@ def today_exam(request):
             return render(request, 'solve/solution_insert.html')
         return render(request, 'solve/already_sol.html')
     else:
-        now = datetime.datetime.now()
-        nowDate = now.strftime('%Y-%m-%d')
+        # now = datetime.datetime.now()
+        # nowDate = now.strftime('%Y-%m-%d')
         try:   
             # 진행상태바 퍼센트정보
             today_algo = Algorithm.objects.get(algo_update = nowDate)
@@ -319,7 +316,8 @@ def update_exam(request, sol_no):
 
 
 
-    
+
+
 
 
 def reply(request):

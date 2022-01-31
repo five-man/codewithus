@@ -9,8 +9,7 @@
     <title>solutions</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/solutions.css' %}">
-    <script
-        src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?autoload=true&skin=sunburst&lang=css"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?autoload=true&skin=sunburst&lang=css"></script>
 </head>
 
 <body>
@@ -22,27 +21,27 @@
             </h1>
         </div>
         {% if request.session.member_name %}
-        <div class="navright" style="float:right;width:33%">
-            <div style="float:left;width:80%">
-                <a class=navright>{{ request.session.member_name }} 님 반갑습니다.</a>
-            </div>
-            <div style="float:right;width:20%">
-                <a class=navright href="{%url 'member:logout' %}">로그아웃</a>
-            </div>
-        </div>
-        {% else %}
-        <div class="navright" style="float:right;width:33%">
-            <div style="float:left;width:80%">
-                <a class=navright href="{%url 'member:login' %}">로그인</a>
-            </div>
-            <div style="float:right;width:20%">
-                <a class=navright href="{%url 'member:signup' %}">회원가입</a>
-            </div>
-        </div>
-        {% endif %}
+                <div class="navright" style="float:right;width:33%">
+                    <div style="float:left;width:80%">
+                        <a class = navright >{{ request.session.member_name }} 님 반갑습니다.</a>
+                    </div>
+                    <div style="float:right;width:20%">
+                        <a class = navright href="{%url 'member:logout' %}">로그아웃</a>
+                    </div>    
+                </div>
+                {% else %}
+                <div class="navright" style="float:right;width:33%">
+                    <div style="float:left;width:80%">
+                        <a class = navright href="{%url 'member:login' %}">로그인</a>
+                    </div>
+                    <div style="float:right;width:20%">
+                        <a class = navright href="{%url 'member:signup' %}">회원가입</a>
+                    </div>    
+                </div>
+                {% endif %}
     </nav>
     <div class="container">
-
+       
         <div class="comback">
         </div>
         <div class="solutions-group">
@@ -66,18 +65,18 @@
                     <div class="comment-head" id="{{item.sol_no.sol_no}}">
                         <img class="user-icon" src="{% static 'assets/user.jpg'%}" alt="user icon">
                     </div>
-
+                    
                     <div class="comment-body">
                         <p class="comment-text">{{item.comment_detail}}</p>
                         <h6>{{item.member_no.member_name}}</h6>
-                    </div>
+                    </div>  
                 </li>
                 {% endfor %}
             </ul>
             <ul>
                 <li class="commemt-line">
                     <div class="comment-form">
-                        <input type="text" class="comment-write" placeholder="댓글을 입력하세요">
+                        <input type="text"  class="comment-write" placeholder="댓글을 입력하세요">
 
                         <input type="submit" class="register-btn" value="등록">
                     </div>
@@ -90,49 +89,48 @@
     let btnUpdate = document.querySelector('.btnUpdate');
     let btnReply = document.querySelector('.register-btn');
 
-    [...document.querySelectorAll('.register-btn')].forEach(function (item) {
-        item.addEventListener('click', e => {
-            let content = document.querySelector('.comment-write').value;
-            let id_check = $('.comment-head').attr('id');
-            console.log(id_check);
-            console.log(content);
-            document.querySelector('.comment-write').value = '';
-            let param = {
-                "sol_no": id_check,
-                "comment_detail": content,
-            }
-            $.ajax({
-                url: '{% url 'solve: reply' %}',
-                type: 'POST',
-                headers: {
-                    'X-CSRFTOKEN': '{{ csrf_token }}'
-                },
-                data: JSON.stringify(param),
-
-                //통신 받기
-                success: function (receive) {
-                    console.log(receive);
-                    let replyTable = document.querySelector('.comments');
-                    let newTr = document.createElement('li');
-                    newTr.className = 'comment-item';
-                    let str = `
+[...document.querySelectorAll('.register-btn')].forEach(function(item) {
+    item.addEventListener('click', e => {
+        let content = document.querySelector('.comment-write').value;
+        let id_check = $('.comment-head').attr('id');
+        console.log(id_check);
+        console.log(content);
+        document.querySelector('.comment-write').value = '';
+        let param = {
+            "sol_no" : id_check,
+            "comment_detail" : content,
+        }
+        $.ajax({
+            url : '{% url 'solve:reply' %}',
+            type : 'POST',
+            headers : {
+                'X-CSRFTOKEN' : '{{ csrf_token }}'
+            },
+            data : JSON.stringify(param),
+            
+            //통신 받기
+            success:function(receive) {
+                console.log(receive);
+                let replyTable = document.querySelector('.comments');
+                let newTr = document.createElement('li');
+                newTr.className='comment-item';
+                let str =`
                     <div class="comment-head">
                     <img class="user-icon" src="{% static 'assets/user.jpg'%}" alt="user icon">
                     </div>
                     <div class="comment-body">
                         <p class="comment-text">${content}</p>
                     <h6>${receive.pp}</h6>
-                    </div>`;
-                    newTr.innerHTML = str;
-                    replyTable.append(newTr);
-                },
-                error: function (request, status, error) {
-                    alert("code" + request.status + '\n' + "messsage:" + request.responseText + "\n" + "error:" + error);
-                }
-            })
-        });
+                    </div>`;  
+                newTr.innerHTML = str;
+                replyTable.append(newTr);
+            },
+            error:function(request,status,error){
+                alert("code"+request.status+'\n'+"messsage:"+request.responseText+"\n"+"error:"+error);
+            }
+        })
     });
-
+});
+    
 </script>
-
 </html>

@@ -44,6 +44,14 @@
             <strong>
                 <p style="font-size: 30px;">파일 목록</p>
             </strong>
+            <div class="download-form">
+                <form location.href="{% url 'file:file_upload'%}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="file" name="file" id="input-file">
+                    <input type="text" name="fileTitle" placeholder="글의 제목">
+                    <input type="submit" value="업로드">
+                </form>
+            </div>
             {% comment %} <select style="float: right;" name="language">
                 <option value="none">=== 선택 ===</option>
                 <option value="korean">1</option>
@@ -51,17 +59,6 @@
                 <option value="chinese">3</option>
             </select> {% endcomment %}
         </tr>
-        <div class="download-form">
-            <form location.href="{% url 'file:file_upload'%}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="text" name="fileTitle" placeholder="글의 제목">
-                <label for="input-file" class="file-label">
-                    <img src="{% static 'assets/file.jpg' %}" alt="" class="label-image">
-                </label>
-                 <input type="file" id="input-file"/>
-                <input type="submit" class="upload-btn" value="업로드">
-            </form>
-        </div>
         <table class="board_list">
             <thead>
                 <th>제목</th>

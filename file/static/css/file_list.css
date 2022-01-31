@@ -63,9 +63,6 @@ strong p{
     height: 40px;
 }
 
-#input-file{
-    display: none;
-}
 .download-form{
     display: flex;
     justify-content: right;
