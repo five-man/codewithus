@@ -8,7 +8,7 @@ urlpatterns = [
     path('problem_list/', views.problem_list, name='problem_list'),    
     path('problem_upload/', views.problem_upload, name='problem_upload'),    
     path('today_exam/', views.today_exam, name='today_exam'),
-
+    path('reply/', views.reply, name='reply'),    
 
     #path('exam<int:algo_no>/', views.exam, name='exam'),
     path('solutions<int:algo_no>/', views.solutions, name='solutions'),
@@ -27,5 +27,5 @@ urlpatterns = [
 
   
     # path('solutions/', views.solutions, name='solutions'),    
-    path('reply/', views.reply, name='reply'),    
+    
 ]

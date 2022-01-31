@@ -113,10 +113,10 @@ def today_solutions(request):
     
     try:
         sols = Solution.objects.filter(algo_no = today_a)
-        # reply = Comment.objects.filter(algo_no = today_a)
+        reply = Comment.objects.filter(algo_no = today_a.algo_no.algo_no)
         context = {
             'sols':sols,
-            # 'reply':reply
+            'reply':reply
         }
     except Solution.DoesNotExist as e: 
         # 문제 풀이 없음
