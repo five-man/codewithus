@@ -11,7 +11,7 @@ urlpatterns = [
     path('reply/', views.reply, name='reply'),    
 
     #path('exam<int:algo_no>/', views.exam, name='exam'),
-    path('solutions<int:algo_no>/', views.solutions, name='solutions'),
+    #path('solutions<int:algo_no>/', views.solutions, name='solutions'),
     #path('solutions<int:algo_no>/', views.solutions, name='solutions'),
     #path('update_exam<int:algo_no><int:sol_no>/', views.update_exam, name='update_exam'),
     #path('algo/', views.algo, name = 'algo'),
@@ -20,12 +20,12 @@ urlpatterns = [
     path('problem_upload/complete', views.problem_upload_complete, name='problem_upload_complete'),    
     # path('problem_upload/fail', views.problem_upload_fail, name='problem_upload_fail'),    
       
-    path('exam<int:algo_no>/', views.exam, name='exam'),
-    path('exam<int:algo_no>/solutions<int:al>/', views.solutions, name='solutions'),
+    path('exam<int:in_algo_no>/', views.exam, name='exam'),
+    path('exam<int:in_algo_no>/solutions/', views.solutions, name='solutions'),
     #path('exam<int:algo_no>/solve/solutions/', views.solutions, name='solget'),
     path('update_exam<int:algo_no><int:sol_no>/', views.update_exam, name='update_exam'),
 
-  
+    path('exam<int:algo_no>/solutions', views.exam, name='ex_solution'),
     # path('solutions/', views.solutions, name='solutions'),    
     
 ]

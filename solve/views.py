@@ -43,11 +43,11 @@ def problem_list(request):
     return render(request,"solve/problem_list.html", context)
 
 
-def exam(request, algo_no):
-    al = algo_no
+def exam(request, in_algo_no):
+    al = in_algo_no # int형
     now = datetime.datetime.now()
     nowDate = now.strftime('%Y-%m-%d')
-    today_algo = Algorithm.objects.get(algo_no = algo_no)
+    today_algo = Algorithm.objects.get(algo_no = al)
     total_member = Member.objects.count()
     today_member = Solution.objects.filter(algo_no = today_algo).count()
     percent= ceil(today_member/total_member*100)
@@ -55,16 +55,34 @@ def exam(request, algo_no):
     if request.method=="POST":
         sol_detail = request.POST.get('contents')
         member_no = request.session.get('member_no')
-        algo_no = Algorithm.objects.get(algo_no=algo_no)
+        # in_algo_no = Algorithm.objects.get(algo_no=al)
+        # int_algo_no = Algorithm.objects.get(algo_no=in_algo_no).values(in_algo_no)
+        
+        try:
+            is_ok = Solution.objects.get(Q(algo_no=al) & Q(member_no = request.session.get('member_no')))
+        except Solution.DoesNotExist as e: 
+            sol_detail = request.POST.get('contents')
+            member_no = request.session.get('member_no')
+            # membername = Member.objects.get(member_no = member_no)
+            algo_no = Algorithm.objects.get(algo_no = al)
 
-        s = Solution(
-            sol_detail = sol_detail,
-            algo_no = algo_no,
-            sol_like = 0,
-            member_no=Member.objects.get(member_no=member_no)
-        )
-        s.save()
-        return redirect('solutions'+str(al)+'/')
+            s = Solution(
+                sol_detail = sol_detail,
+                algo_no = algo_no,
+                sol_like = 0,
+                member_no=Member.objects.get(member_no=member_no)
+            )
+            
+            
+            # today_sols = Solution.objects.filter(algo_update=nowDate)
+            s.save()
+            
+            # 문제 제출 확인
+            # return redirect('solutions'+str(al)+'/')
+            return render(request, 'solve/solution_insert.html')
+        
+        return render(request, 'solve/already_sol.html')
+        
     else:
         algo_image_object = AlgorithmImage.objects.filter(algo_no= today_algo)
         pe=str(percent) +"%"
@@ -72,13 +90,14 @@ def exam(request, algo_no):
                 'percent': percent,
                 'image': algo_image_object,
                 'pe':pe,
-                'algo_no': algo_no
+                'algo_no': in_algo_no
                 }
         return render(request,"solve/exam.html", data)
 
 
 
-def solutions(request, algo_no):
+# def solutions(request, algo_no, al):
+def solutions(request, in_algo_no):
     if request.method == 'POST':
         try:
             is_ok = Solution.objects.get(member_no = request.session.get('member_no'))
@@ -86,7 +105,7 @@ def solutions(request, algo_no):
             sol_detail = request.POST.get('contents')
             member_no = request.session.get('member_no')
             # membername = Member.objects.get(member_no = member_no)
-            algo_no = Algorithm.objects.get(algo_no = algo_no)
+            algo_no = Algorithm.objects.get(algo_no = in_algo_no)
 
             s = Solution(
                 algo_no = algo_no,
@@ -101,7 +120,24 @@ def solutions(request, algo_no):
             
             # 문제 제출 확인
             return render(request, 'solve/solution_insert.html')
+        
         return render(request, 'solve/already_sol.html')
+    else:
+        
+        # algo_no = Algorithm.objects.get(algo_update = in_algo_no)
+
+        try:
+            sols = Solution.objects.filter(algo_no = in_algo_no)
+            reply = Comment.objects.filter(algo_no = in_algo_no)
+            context = {
+                'sols':sols,
+                # 'reply':reply
+            }
+        except Solution.DoesNotExist as e: 
+            # 문제 풀이 없음
+            return redirect('solve/no_solution.html')
+        
+        return render(request,"solve/solutions.html", context)
 
 
 def today_solutions(request):
@@ -113,7 +149,7 @@ def today_solutions(request):
     
     try:
         sols = Solution.objects.filter(algo_no = today_a)
-        reply = Comment.objects.filter(algo_no = today_a.algo_no.algo_no)
+        reply = Comment.objects.filter(algo_no = today_a.algo_no)
         context = {
             'sols':sols,
             'reply':reply

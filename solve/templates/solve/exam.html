@@ -82,29 +82,23 @@
         <h4>나의 풀이 작성하기</h4>
         <form  name="frm_pw2" method="POST">
             {% csrf_token %}
-            <div class="form=group">
+            <div class="form=">
                 <label for="solu">내용</label>
-                <textarea name="contents" id="editor" class="form-control" style="height:200px;"></textarea>
-                <script>
-                    ClassicEditor
-                        .create(document.querySelector('#editor'), {
-                            language: { ui: 'ko', content: 'ko' }
-                        })
-                        .catch(error => {
-                            console.error(error);
-                        })
-                </script>
+                <textarea name="contents" id="editor" class="form-control" style="height:200px;"
+                    onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}">코드입력
+                </textarea>
             </div>
             <!--글 등록되도록 연결 필요-->
             <div style="text-align:right;">
-                <button class="submit-exam-btn" type="submit" onclick="location.href='solve/solutions{{al}}/'">
+                <button class="submit-exam-btn" type="submit" onclick="location.href='solve/exam{{in_algo_no}}/'">
 
                     풀이 제출하기
                 </button>
             </div>
+        </form>
             <!--링크 주소값 필요-->
             <div style="text-align:center;">
-                <button class="toallanswer-btn" type="submit" onclick="location.href='solve/solutions{{al}}/'">
+                <button class="toallanswer-btn" type="submit" onclick="location.href='solutions/'">
                         모든 풀이 보기
                     </button>
             </div>

@@ -66,15 +66,15 @@
                 <pre class="prettyprint">{{i.sol_detail}}</pre>
             </div>
             <ul class="comments">
-                {% for item in reply %}
+                {% for re in reply %}
                 <li class="comment-item">
-                    <div class="comment-head" id="{{item.sol_no.sol_no}}">
+                    <div class="comment-head" id="{{re.sol_no.sol_no}}">
                         <img class="user-icon" src="{% static 'assets/user.jpg'%}" alt="user icon">
                     </div>
 
                     <div class="comment-body">
-                        <p class="comment-text">{{item.comment_detail}}</p>
-                        <h6>{{item.member_no.member_name}}</h6>
+                        <p class="comment-text">{{re.comment_detail}}</p>
+                        <h6>{{re.member_no.member_name}}</h6>
                     </div>
                 </li>
                 {% endfor %}
@@ -103,7 +103,7 @@
     </div>
 </body>
 
-<script>
+{% comment %} <script>
     let btnUpdate = document.querySelector('.btnUpdate');
     let btnReply = document.querySelector('.register-btn');
 
@@ -150,6 +150,6 @@
         });
     });
 
-</script> 
+</script>  {% endcomment %}
 
 </html>
