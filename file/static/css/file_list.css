@@ -1,4 +1,3 @@
-   
 * {
     box-sizing: border-box;
     margin: 0;
@@ -49,6 +48,7 @@ input #filename{
 
 table {
     border-collapse: collapse;
+    width: 100%;
 }
 
 caption {
@@ -60,10 +60,43 @@ a {
     color: inherit;
 }
 
+table button {
+    border: none;
+    background-color: white;
+}
+
+table button:hover{
+    text-decoration: underline;
+}
+
+.upload-form{
+    float: right;
+}
+
+.file-label img{
+    width: 40px;
+    height: 40px;
+}
+
+.file-label img:hover{
+    cursor: pointer;
+}
+
+.filepick{
+    display: none;
+}
+
+.upload-btn{
+    border: none;
+    border-radius: 8px;
+    background-color: #20484f;
+    color: white;
+}
+
 .board_list_wrap {
-    padding: 80px;
+    padding: 10px;
     height: 65%;
-    width: 900px;
+    width: 100%;
     border-radius: 20px;
     background: white;
 }
