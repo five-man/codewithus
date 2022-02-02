@@ -358,26 +358,37 @@ def today_reply(request):
     now = datetime.datetime.now()
     nowDate = now.strftime('%Y-%m-%d')
     if request.method == 'POST':
-        member_no = request.session.get('member_no')
         jsonObject = json.loads(request.body)
+        
         solno = jsonObject.get('sol_no')
-        algono=Algorithm.objects.get(algo_update=nowDate)
+        sol_no = Solution.objects.get(sol_no=solno)
+        
+        # 오늘의 날짜로 algo_no 값 가져오기
+        algono = Algorithm.objects.get(algo_update=nowDate)
+        # 해당 값으로 solution 테이블에서 algo_no 검색
+        algo_no = Solution.objects.get(algo_no=algono.algo_no)
+        
+        memberno = request.session.get('member_no')
+        member_no = Member.objects.get(member_no=memberno)
+        
         reply = Comment.objects.create(
-            sol_no=Solution.objects.get(sol_no=solno),
-            algo_no=Algorithm.objects.get(algo_update=algono),
+            sol_no=sol_no,
+            algo_no=algo_no,
             comment_detail=str(jsonObject.get('comment_detail')),
-            member_no=Member.objects.get(member_no=member_no),
+            member_no=member_no,
         )
         reply.save()
         
         membername = Member.objects.get(member_no = member_no)
         context = {
             # 'name': serializers.serialize("json", reply.member_no),
-            'content': str(reply.comment_detail),
-            'pp': str(membername.member_name)    
+            'content': reply.comment_detail,
+            'pp': membername.member_name,   
         }
 
         return JsonResponse(context)
+
+
 
 def reply(request):
     if request.method == 'POST':
