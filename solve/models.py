@@ -84,7 +84,6 @@ class Comment(models.Model):
         app_label='member'
         db_table = 'comment'
         unique_together = (('comment_no', 'sol_no', 'algo_no'),)
-        app_label = 'member'
 
 
 

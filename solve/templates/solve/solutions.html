@@ -50,20 +50,25 @@
         <div class="solutions-group">
             <div class="solution-info">
                 <div class="user-icon-div">
-                    <img class="user-icon" src="{% static 'assets/user.jpg'%}" alt="user icon">
+                    <img class="user-icon" style="width:20px" src="{% static 'assets/user.jpg'%}" alt="user icon">
                     <strong>{{i.member_no.member_name}}</strong>
                 </div>
                 <div class="solution-btn">
+                    {% if request.session.member_name == i.member_no.member_name%}
                     <button class="like-btn" value="">좋아요 {{i.sol_like}}개</button>
                     <button class="adj-btn">수정</button>
                     <button class="del-btn">삭제</button>
+                    {% else %}
+                    <button class="like-btn" style="width:108px">좋아요 {{i.sol_like}}개</button>
+                    {% endif %}
                 </div>
             </div>
             <div class="solution">
                 <pre class="prettyprint">{{i.sol_detail}}</pre>
             </div>
             <ul class="comments">
-                {% comment %} {% for item in reply%}
+                {% for item in reply %}
+                {% if i.sol_no == item.sol_no.sol_no %}
                 <li class="comment-item">
                     <div class="comment-head" id="{{item.sol_no.sol_no}}">
                         <img class="user-icon" src="{% static 'assets/user.jpg'%}" alt="user icon">
@@ -72,9 +77,13 @@
                     <div class="comment-body">
                         <p class="comment-text">{{item.comment_detail}}</p>
                         <h6>{{item.member_no.member_name}}</h6>
+                        {% if request.session.member_name == item.member_no.member_name %}
+                        <button class="del-btn">삭제</button>
+                        {% endif %}
                     </div>
                 </li>
-                {% endfor %} {% endcomment %}
+                {% endif %}
+                {% endfor %}
             </ul>
             <ul>
                 <li class="commemt-line">
@@ -89,7 +98,7 @@
     </div>
     {%endfor%}
 </body>
-{% comment %} <script>
+<script>
     let btnUpdate = document.querySelector('.btnUpdate');
     let btnReply = document.querySelector('.register-btn');
 
@@ -103,9 +112,10 @@
             let param = {
                 "sol_no": id_check,
                 "comment_detail": content,
+
             }
             $.ajax({
-                url: '{% url 'solve: reply' %}',
+                url: '{% url 'solve:reply' %}',
                 type: 'POST',
                 headers: {
                     'X-CSRFTOKEN': '{{ csrf_token }}'
@@ -136,6 +146,6 @@
         });
     });
 
-</script> {% endcomment %}
+</script>
 
 </html>

@@ -153,6 +153,19 @@ body{
     margin-right: 5px;
 }
 
+.adj-btn-none, .del-btn-none{
+    background-color: #20484f;
+    border: none;
+    border-radius: 8px;
+    width: 70px;
+    color: white;
+    cursor: pointer;
+    height: 100%;
+    word-break: keep-all;
+    /* visibility: hidden; */
+    display: none;
+}
+
 .like-btn{
     background-color: #20484f;
     border: none;

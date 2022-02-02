@@ -57,26 +57,35 @@
                     <strong>{{i.member_no.member_name}}</strong>
                 </div>
                 <div class="solution-btn">
+                    {% if request.session.member_name == i.member_no.member_name%}
                     <button class="like-btn" value="">좋아요 {{i.sol_like}}개</button>
                     <button class="adj-btn">수정</button>
                     <button class="del-btn">삭제</button>
+                    {% else %}
+                    <button class="like-btn" style="width:108px">좋아요 {{i.sol_like}}개</button>
+                    {% endif %}
                 </div>
             </div>
             <div class="solution">
                 <pre class="prettyprint">{{i.sol_detail}}</pre>
             </div>
             <ul class="comments">
-                {% for re in reply %}
+                {% for item in reply %}
+                {% if i.sol_no == item.sol_no.sol_no %}
                 <li class="comment-item">
-                    <div class="comment-head" id="{{re.sol_no.sol_no}}">
+                    <div class="comment-head" id="{{item.sol_no.sol_no}}">
                         <img class="user-icon" src="{% static 'assets/user.jpg'%}" alt="user icon">
                     </div>
 
                     <div class="comment-body">
-                        <p class="comment-text">{{re.comment_detail}}</p>
-                        <h6>{{re.member_no.member_name}}</h6>
+                        <p class="comment-text">{{item.comment_detail}}</p>
+                        <h6>{{item.member_no.member_name}}</h6>
+                        {% if request.session.member_name == item.member_no.member_name %}
+                        <button class="del-btn">삭제</button>
+                        {% endif %}
                     </div>
                 </li>
+                {% endif %}
                 {% endfor %}
             </ul>
             <ul>
@@ -103,7 +112,7 @@
     </div>
 </body>
 
-{% comment %} <script>
+<script>
     let btnUpdate = document.querySelector('.btnUpdate');
     let btnReply = document.querySelector('.register-btn');
 
@@ -111,6 +120,7 @@
         item.addEventListener('click', e => {
             let content = document.querySelector('.comment-write').value;
             let id_check = $('.comment-head').attr('id');
+            let algo_no = 
             console.log(id_check);
             console.log(content);
             document.querySelector('.comment-write').value = '';
@@ -119,7 +129,7 @@
                 "comment_detail": content,
             }
             $.ajax({
-                url: '{% url 'solve: reply' %}',
+                url: '{% url 'solve:today_reply' %}',
                 type: 'POST',
                 headers: {
                     'X-CSRFTOKEN': '{{ csrf_token }}'
@@ -150,6 +160,6 @@
         });
     });
 
-</script>  {% endcomment %}
+</script>
 
 </html>
