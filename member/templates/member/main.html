@@ -18,7 +18,7 @@
                 <a href="{%url 'member:main' %}">Code With US!</a>
             </h1>
         </div>
-        
+
         {% if request.session.member_name %}
         <div class="navright" style="float:right;width:33%">
             <div style="float:left;width:80%">
@@ -78,7 +78,7 @@
                     <strong>문제 확인하기</strong>
                     <p>지금까지 올라온 문제를 모두 확인해볼 수 있어요!</p>
                 </button>
-                <button class="num4" onclick="location.href='{%url 'solve:solutions' %}'">
+                <button class="num4" onclick="location.href='{%url 'solve:problem_upload' %}'">
                     <div>
                         <strong>문제 업로드</strong>
                     </div>
@@ -129,5 +129,6 @@
     </div>
     {% endif %}
 </body>
+
 
 </html>
