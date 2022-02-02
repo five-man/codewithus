@@ -28,7 +28,6 @@ class Algorithm(models.Model):
         managed = False
         app_label='member'
         db_table = 'algorithm'
-        # app_label = 'member'
 
 
 class AlgorithmImage(models.Model):
@@ -61,7 +60,6 @@ class Solution(models.Model):
         # app_label = 'member'
 
 
-
 class AlgorithmImage(models.Model):
     image_no = models.AutoField(primary_key=True)
     algo_no = models.ForeignKey(Algorithm, on_delete=models.CASCADE, db_column='algo_no')
@@ -86,7 +84,7 @@ class Comment(models.Model):
         app_label='member'
         db_table = 'comment'
         unique_together = (('comment_no', 'sol_no', 'algo_no'),)
-        # app_label = 'member'
+
 
 
 

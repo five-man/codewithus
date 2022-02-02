@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="{% static 'css/solutions.css' %}">
     <script
         src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?autoload=true&skin=sunburst&lang=css"></script>
+    {% comment %} <link href="{% static 'css/todayexam.css' %}" rel="stylesheet"> {% endcomment %}
+
 </head>
 
 <body>
@@ -42,14 +44,16 @@
         {% endif %}
     </nav>
 
+
     {% for i in sols %}
     <div class="container">
+
         <div class="comback">
         </div>
         <div class="solutions-group">
             <div class="solution-info">
                 <div class="user-icon-div">
-                    <img class="user-icon" style="width:20px" src="{% static 'assets/user.jpg'%}" alt="user icon">
+                    <img class="user-icon" src="{% static 'assets/user.jpg'%}" alt="user icon">
                     <strong>{{i.member_no.member_name}}</strong>
                 </div>
                 <div class="solution-btn">
@@ -81,12 +85,13 @@
                         {% endif %}
                     </div>
                 </li>
+                {% endif %}
                 {% endfor %}
             </ul>
             <ul>
                 <li class="commemt-line">
                     <div class="comment-form">
-                        <input type="text"  class="comment-write" placeholder="댓글을 입력하세요">
+                        <input type="text" class="comment-write" placeholder="댓글을 입력하세요">
 
                         <input type="submit" class="register-btn" value="등록">
                     </div>
@@ -95,7 +100,18 @@
         </div>
     </div>
     {%endfor%}
+    <div style="text-align:center;">
+        <button style="margin-top: 50px;
+        width: 400px;
+        text-align: center;
+        background: #20484f;
+        color: white;
+        border-radius: 5px;" type="button" onclick="location.href='{% url 'solve:today_exam' %}'">
+            문제로 돌아가기
+        </button>
+    </div>
 </body>
+
 <script>
     let btnUpdate = document.querySelector('.btnUpdate');
     let btnReply = document.querySelector('.register-btn');
@@ -104,16 +120,16 @@
         item.addEventListener('click', e => {
             let content = document.querySelector('.comment-write').value;
             let id_check = $('.comment-head').attr('id');
+            let algo_no = 
             console.log(id_check);
             console.log(content);
             document.querySelector('.comment-write').value = '';
             let param = {
                 "sol_no": id_check,
                 "comment_detail": content,
-
             }
             $.ajax({
-                url: '{% url 'solve:reply' %}',
+                url: '{% url 'solve:today_reply' %}',
                 type: 'POST',
                 headers: {
                     'X-CSRFTOKEN': '{{ csrf_token }}'
