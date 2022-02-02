@@ -31,10 +31,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'file',
     'member',
     'paging',
     'solve',
+    'file',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -87,7 +87,7 @@ DATABASES = {
     'ENGINE': 'django.db.backends.mysql',
     'NAME': 'lasttest',
     'USER': 'root',
-    'PASSWORD': '1234',
+    'PASSWORD': 'aivle',
     'HOST': 'localhost',
     'PORT': 3306,
 }

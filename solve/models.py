@@ -11,7 +11,7 @@ class Tag(models.Model):
 
     class Meta:
         managed = False
-        #app_label='member'
+        app_label='member'
         db_table = 'tag'
         # app_label = 'member'
 
@@ -57,7 +57,7 @@ class Solution(models.Model):
         app_label='member'
         db_table = 'solution'
         unique_together = (('sol_no', 'algo_no'),)
-        app_label = 'member'
+        # app_label = 'member'
 
 
 class AlgorithmImage(models.Model):
@@ -84,6 +84,7 @@ class Comment(models.Model):
         app_label='member'
         db_table = 'comment'
         unique_together = (('comment_no', 'sol_no', 'algo_no'),)
+
 
 
 

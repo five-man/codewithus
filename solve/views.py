@@ -302,9 +302,6 @@ def today_exam(request):
 
 
 def problem_upload_complete(request):
-    
-
-    
     # return render(request, 'solve/today_exam.html', {'image':algo_image_object.image_name})
 
     return redirect("/main/")
