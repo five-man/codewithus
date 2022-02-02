@@ -10,6 +10,7 @@ urlpatterns = [
     path('today_exam/', views.today_exam, name='today_exam'),
     path('today_reply/', views.today_reply, name='today_reply'),    
     path('reply/', views.reply, name='reply'),    
+    path('sol_del/', views.sol_del, name='sol_del'),    
 
     #path('exam<int:algo_no>/', views.exam, name='exam'),
     #path('solutions<int:algo_no>/', views.solutions, name='solutions'),

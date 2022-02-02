@@ -367,6 +367,7 @@ def today_reply(request):
         algono = Algorithm.objects.get(algo_update=nowDate)
         # 해당 값으로 solution 테이블에서 algo_no 검색 - 1개만 나와야 하므로 2개의 조건 필요
         algo_no = Solution.objects.get(Q(sol_no=sol_no.sol_no) & Q(algo_no=algono))
+        # algo_no = Solution.sol_no.cmt_rel_sol_no.get(Q(sol_no=sol_no.sol_no) & Q(algo_no=algono))
         
         memberno = request.session.get('member_no')
         member_no = Member.objects.get(member_no=memberno)
@@ -411,3 +412,11 @@ def reply(request):
         }
 
         return JsonResponse(context)
+    
+    
+    
+    
+def sol_del(request):
+    
+    
+    return render(request,"solve/today_sol.html")
