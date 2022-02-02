@@ -37,8 +37,8 @@ body{
 
 .nav .menu{
     position: fixed;
-    font-size: 30px;
-    color: white;
+    /* font-size: 30px; */
+    /* color: white; */
 }
 
 .nav a{
