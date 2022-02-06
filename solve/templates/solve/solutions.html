@@ -42,8 +42,8 @@
         {% endif %}
     </nav>
 
-    {% for i in sols %}
     <div class="container">
+    {% for i in sols %}
         <div class="comback">
         </div>
         <div class="solutions-group">
@@ -94,8 +94,8 @@
                 </li>
             </ul>
         </div>
+        {%endfor%}
     </div>
-    {%endfor%}
 </body>
 <script>
     let btnUpdate = document.querySelector('.btnUpdate');

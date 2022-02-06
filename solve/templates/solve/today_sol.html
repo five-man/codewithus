@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="{% static 'css/solutions.css' %}">
     <script
         src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?autoload=true&skin=sunburst&lang=css"></script>
-    {% comment %} <link href="{% static 'css/todayexam.css' %}" rel="stylesheet"> {% endcomment %}
+    {% comment %}
+    <link href="{% static 'css/todayexam.css' %}" rel="stylesheet"> {% endcomment %}
 
 </head>
 
@@ -45,9 +46,8 @@
     </nav>
 
 
-    {% for i in sols %}
     <div class="container">
-
+        {% for i in sols %}
         <div class="comback">
         </div>
         <div class="solutions-group">
@@ -98,17 +98,17 @@
                 </li>
             </ul>
         </div>
-    </div>
-    {%endfor%}
-    <div style="text-align:center;">
-        <button style="margin-top: 50px;
-        width: 400px;
-        text-align: center;
-        background: #20484f;
-        color: white;
-        border-radius: 5px;" type="button" onclick="location.href='{% url 'solve:today_exam' %}'">
-            문제로 돌아가기
-        </button>
+        {%endfor%}
+        <div style="text-align:center;">
+            <button style="margin-top: 50px;
+            width: 400px;
+            text-align: center;
+            background: #20484f;
+            color: white;
+            border-radius: 5px;" type="button" onclick="location.href='{% url 'solve:today_exam' %}'">
+                문제로 돌아가기
+            </button>
+        </div>
     </div>
 </body>
 
@@ -120,8 +120,8 @@
         item.addEventListener('click', e => {
             let content = document.querySelector('.comment-write').value;
             let id_check = $('.comment-head').attr('id');
-            let algo_no = 
-            console.log(id_check);
+            let algo_no =
+                console.log(id_check);
             console.log(content);
             document.querySelector('.comment-write').value = '';
             let param = {
